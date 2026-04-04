@@ -3,131 +3,114 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>С Днем Рождения!</title>
+    <title>Твой Подарок!</title>
     <style>
-        /* Основные настройки страницы */
         body, html {
             margin: 0;
             padding: 0;
             width: 100%;
             height: 100%;
-            overflow: hidden; /* Чтобы не было полос прокрутки */
-            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f0f0f0;
+            overflow: hidden;
         }
 
-        /* ФОН КОМНАТЫ */
-        .background {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url('https://gcdnb.pbrd.co/images/jA1FeTW5ogKE.png?o=1');
-            background-size: cover;
-            background-position: center;
-            z-index: -1;
-        }
-
-        /* ОБЩИЙ КОНТЕЙНЕР ДЛЯ ЭЛЕМЕНТОВ */
+        /* Общий стиль для всех экранов */
         .scene {
-            position: relative;
+            position: absolute;
             width: 100vw;
             height: 100vh;
-        }
-
-        /* ШАРИКИ (Декор) */
-        .decor {
-            position: absolute;
-            transition: transform 0.3s ease;
-        }
-        
-        .balloons-left {
-            width: 200px;
-            top: 10%;
-            left: 5%;
-            /* Ссылка на первые шарики */
-            content: url('https://gcdnb.pbrd.co/images/Nouv0xVOiJED.png?o=1');
-        }
-
-        .balloons-right {
-            width: 180px;
-            top: 5%;
-            right: 10%;
-            /* Ссылка на вторые шарики */
-            content: url('https://gcdnb.pbrd.co/images/I04Dp5EyxmmF.png?o=1');
-        }
-
-        .decor-extra {
-            width: 150px;
-            bottom: 10%;
-            left: 10%;
-            /* Ссылка на третий декор */
-            content: url('https://gcdnb.pbrd.co/images/iXUtKGAXPPbq.png?o=1');
-        }
-
-        /* МИКРОФОН */
-        .microphone {
-            position: absolute;
-            width: 120px;
-            bottom: 15%;
-            right: 15%;
+            background-size: cover;
+            background-position: center;
             cursor: pointer;
-            filter: drop-shadow(0 0 10px rgba(255,255,255,0.5));
-            /* Ссылка на микрофон */
-            content: url('https://gcdnb.pbrd.co/images/MuK71pVhfAW4.png?o=1');
-        }
-        
-        .microphone:hover {
-            transform: scale(1.1);
+            display: none; /* Скрываем все сцены по умолчанию */
+            transition: opacity 0.5s ease-in-out;
         }
 
-        /* КОНВЕРТ (Центральный элемент) */
-        .envelope {
+        /* Показываем только активную сцену */
+        .active {
+            display: block;
+        }
+
+        /* Сцена 1: Закрытый конверт на фоне шаров */
+        #scene1 { background-image: url('https://gcdnb.pbrd.co/images/jA1FeTW5ogKE.png?o=1'); }
+        #scene1::after {
+            content: "";
             position: absolute;
-            top: 50%;
-            left: 50%;
+            top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            width: 250px;
-            cursor: pointer;
-            transition: all 0.5s ease;
-            /* Ссылка на конверт */
-            content: url('https://gcdnb.pbrd.co/images/ClSXZWA3SoD2.png?o=1');
+            width: 300px; height: 200px;
+            background: url('https://gcdnb.pbrd.co/images/ClSXZWA3SoD2.png?o=1') no-repeat center/contain;
         }
 
-        .envelope:hover {
-            transform: translate(-50%, -60%) rotate(-5deg);
-            filter: brightness(1.1);
-        }
-
-        /* ТЕКСТ ПОДПИСИ */
-        .title {
+        /* Сцена 2: Открытое письмо */
+        #scene2 { background-image: url('https://gcdnb.pbrd.co/images/jA1FeTW5ogKE.png?o=1'); }
+        #scene2 .letter {
             position: absolute;
-            top: 10%;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%; height: 80%;
+            background: url('https://gcdnb.pbrd.co/images/Nouv0xVOiJED.png?o=1') no-repeat center/contain;
+        }
+
+        /* Сцена 3: Заставка игры */
+        #scene3 { background-image: url('https://gcdnb.pbrd.co/images/MuK71pVhfAW4.png?o=1'); background-size: contain; background-repeat: no-repeat; background-color: white;}
+
+        /* Сцена 4: Сама игра (выбор коробок) */
+        #scene4 { background-image: url('https://gcdnb.pbrd.co/images/I04Dp5EyxmmF.png?o=1'); background-size: contain; background-repeat: no-repeat; background-color: white;}
+
+        /* Сцена 5: Финал с микрофоном */
+        #scene5 { background-image: url('https://gcdnb.pbrd.co/images/iXUtKGAXPPbq.png?o=1'); background-size: contain; background-repeat: no-repeat; background-color: white;}
+
+        /* Подсказка внизу */
+        .hint {
+            position: absolute;
+            bottom: 20px;
             width: 100%;
             text-align: center;
-            color: white;
-            font-size: 2.5em;
-            text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+            color: #888;
+            font-family: sans-serif;
             pointer-events: none;
         }
-
     </style>
 </head>
 <body>
 
-    <div class="background"></div>
-
-    <div class="scene">
-        <h1 class="title">С Днём Рождения! 🎂</h1>
-
-        <div class="decor balloons-left"></div>
-        <div class="decor balloons-right"></div>
-        <div class="decor decor-extra"></div>
-
-        <div class="microphone"></div>
-
-        <div class="envelope" onclick="alert('Тут будет твое поздравление!')"></div>
+    <div id="scene1" class="scene active" onclick="nextScene(2)">
+        <div class="hint">Нажми на конверт, чтобы открыть</div>
     </div>
 
+    <div id="scene2" class="scene" onclick="nextScene(3)">
+        <div class="letter"></div>
+        <div class="hint">Прочитай и жми дальше</div>
+    </div>
+
+    <div id="scene3" class="scene" onclick="nextScene(4)">
+        <div class="hint">Нажми "Начать игру" (или просто по экрану)</div>
+    </div>
+
+    <div id="scene4" class="scene" onclick="nextScene(5)">
+        <div class="hint">Выбери любую коробку!</div>
+    </div>
+
+    <div id="scene5" class="scene">
+        <div class="hint">Ура! Твой подарок — микрофон! 🎤</div>
+    </div>
+
+    <script>
+        function nextScene(sceneNumber) {
+            // Скрываем все сцены
+            const scenes = document.querySelectorAll('.scene');
+            scenes.forEach(s => s.classList.remove('active'));
+
+            // Показываем нужную
+            const next = document.getElementById('scene' + sceneNumber);
+            if (next) {
+                next.classList.add('active');
+            }
+        }
+    </script>
 </body>
 </html>
