@@ -4,242 +4,280 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>С Днём Рождения!</title>
-
 <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600&family=Montserrat:wght@300;400;500;600&family=Great+Vibes&display=swap" rel="stylesheet">
-
 <style>
-:root {
-  --magenta: #f035e0;
-  --magenta-hover: #d020c0;
-  --text-dark: #333;
-  --text-light: #666;
-}
+  :root {
+    --magenta: #f035e0;
+    --magenta-hover: #d020c0;
+    --text-dark: #333;
+    --text-light: #666;
+  }
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
-html, body { height: 100%; overflow: hidden; font-family: 'Montserrat', sans-serif; }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 100%; height: 100%; overflow: hidden; font-family: 'Montserrat', sans-serif; }
 
-.screen {
-  position: fixed; inset: 0;
-  display: flex; align-items: center; justify-content: center;
-  opacity: 0; pointer-events: none;
-  transition: 0.6s;
-}
-.screen.active { opacity: 1; pointer-events: all; }
+  /* ── ОБЩИЕ СТИЛИ ЭКРАНОВ ── */
+  .screen {
+    position: fixed; inset: 0; display: flex; align-items: center; justify-content: center;
+    opacity: 0; pointer-events: none; transition: opacity 0.6s ease; overflow: hidden;
+  }
+  .screen.active { opacity: 1; pointer-events: all; }
 
-/* Фоны */
-.bg-light {
-  position: absolute; inset: 0; z-index: -2;
-  background: linear-gradient(135deg, #fdf5f4, #f7e6e5);
-}
+  /* ── ФОН ── */
+  .bg-room {
+    position: absolute; inset: 0; z-index: -5;
+    background: url('https://gcdnb.pbrd.co/images/jA1FeTW5ogKE.png?o=1') center/cover no-repeat;
+  }
 
-.bg-room {
-  position: absolute; inset: 0; z-index: -2;
-  background: url('https://images.unsplash.com/photo-1549465220-1a8b9238cd48?q=80&w=2070') center/cover no-repeat;
-}
+  /* ── ДЕКОРАТИВНЫЕ ЭЛЕМЕНТЫ (РАСПРЕДЕЛЕНИЕ ПО ЭКРАНАМ) ── */
+  .decor {
+    position: absolute; pointer-events: none; z-index: -1;
+    filter: drop-shadow(0 10px 15px rgba(0,0,0,0.1));
+  }
 
-/* Нижние подарки */
-.bottom-gifts-left {
-  position: absolute; bottom: 0; left: 0; width: 250px;
-}
-.bottom-gifts-right {
-  position: absolute; bottom: 0; right: 0; width: 250px;
-}
+  /* Позиции декора */
+  .top-left { top: -20px; left: -20px; width: 250px; }
+  .top-right { top: -20px; right: -20px; width: 250px; }
+  .bottom-left { bottom: -20px; left: -20px; width: 250px; }
+  .bottom-right { bottom: -20px; right: -20px; width: 250px; }
+  .side-left { left: 0; top: 50%; transform: translateY(-50%); width: 200px; }
+  .side-right { right: 0; top: 50%; transform: translateY(-50%); width: 200px; }
 
-/* Landing */
-.landing-layout {
-  display: flex; gap: 50px; align-items: center;
-}
+  /* ── ЭКРАН 1: ЛЕНДИНГ ── */
+  .landing-layout {
+    display: flex; width: 100%; max-width: 1100px; justify-content: space-around; align-items: center; padding: 40px;
+  }
+  .landing-text { text-align: center; color: #8e6d51; z-index: 2; }
+  .hb-happy { font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 42px; display: block; margin-bottom: -15px; }
+  .hb-birthday { font-family: 'Great Vibes', cursive; font-size: 110px; display: block; }
+  .hb-sub { font-family: 'Montserrat', sans-serif; font-size: 18px; font-weight: 300; letter-spacing: 2px; }
 
-.hb-happy { font-size: 40px; }
-.hb-birthday { font-size: 90px; font-family: 'Great Vibes'; }
-.hb-sub { font-size: 16px; }
+  .envelope-wrapper { cursor: pointer; transition: transform 0.3s; animation: float 3s ease-in-out infinite; z-index: 2; }
+  .envelope-wrapper:hover { transform: scale(1.05); }
+  .envelope-img { width: 300px; height: auto; }
 
-.envelope-wrapper {
-  cursor: pointer;
-  animation: float 3s infinite;
-}
-@keyframes float {
-  50% { transform: translateY(-15px); }
-}
+  @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
 
-/* Модалка */
-.modal {
-  background: #fff;
-  padding: 40px;
-  border-radius: 20px;
-  text-align: center;
-}
+  /* ── МОДАЛЬНЫЕ ОКНА ── */
+  .modal {
+    background: rgba(255, 255, 255, 0.96); border-radius: 30px; box-shadow: 0 25px 60px rgba(0,0,0,0.2);
+    padding: 60px 40px; text-align: center; max-width: 550px; width: 90%;
+    animation: slideUp 0.6s cubic-bezier(0.17, 0.67, 0.83, 0.67); position: relative; z-index: 10;
+  }
+  @keyframes slideUp { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
 
-.btn {
-  background: var(--magenta);
-  color: #fff;
-  border: none;
-  padding: 15px 30px;
-  border-radius: 50px;
-  cursor: pointer;
-}
+  .modal-title { font-size: 36px; font-weight: 400; color: var(--magenta); margin-bottom: 20px; font-family: 'Montserrat', sans-serif; }
+  .modal-text { font-size: 16px; color: var(--text-light); line-height: 1.7; margin-bottom: 35px; font-weight: 400; }
+  
+  .btn {
+    background: var(--magenta); color: #fff; font-family: 'Montserrat', sans-serif; font-size: 18px; font-weight: 600;
+    border: none; border-radius: 50px; padding: 18px 50px; cursor: pointer; transition: 0.3s; box-shadow: 0 10px 25px rgba(240, 53, 224, 0.4);
+  }
+  .btn:hover { background: var(--magenta-hover); transform: translateY(-3px); box-shadow: 0 12px 30px rgba(240, 53, 224, 0.5); }
 
-/* Игра */
-.hearts-container { margin-bottom: 20px; }
-.heart { width: 25px; fill: red; }
-.heart.lost { fill: #ccc; }
+  /* ── ИГРА ── */
+  .hearts-container { display: flex; justify-content: center; gap: 15px; margin-bottom: 40px; }
+  .heart { width: 35px; height: 35px; fill: #ff4757; transition: 0.4s; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.1)); }
+  .heart.lost { fill: #dfe6e9; transform: scale(0.7); opacity: 0.4; }
+  
+  .game-hint { font-family: 'Caveat', cursive; font-size: 28px; color: var(--text-dark); margin-bottom: 45px; }
+  
+  .boxes-container { display: flex; justify-content: center; gap: 40px; }
+  .box-btn { 
+    background: none; border: none; cursor: pointer; transition: transform 0.3s;
+    animation: boxFloat 2s ease-in-out infinite;
+  }
+  .box-btn:hover { transform: scale(1.15) rotate(3deg); }
+  @keyframes boxFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
 
-.boxes-container { display: flex; gap: 20px; }
-.box-btn { background: none; border: none; cursor: pointer; }
+  /* ── ЭКРАН ПОБЕДЫ ── */
+  .win-modal {
+    display: flex; max-width: 900px; width: 95%; background: #fff; border-radius: 30px;
+    overflow: hidden; box-shadow: 0 30px 70px rgba(0,0,0,0.25); animation: slideUp 0.7s ease-out;
+  }
+  .win-note-side {
+    flex: 1.2; padding: 50px; background: #fffaf5; position: relative; border-right: 1px solid #f1f1f1;
+    background-image: repeating-linear-gradient(transparent, transparent 31px, #f7e9ed 32px);
+    background-position: 0 15px;
+  }
+  .note-text {
+    font-family: 'Caveat', cursive; font-size: 24px; line-height: 32px; color: #4a3b42; position: relative; z-index: 2;
+  }
+  .win-prize-side {
+    flex: 1; padding: 50px; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #fff;
+  }
+  .win-prize-title { font-family: 'Caveat', cursive; font-size: 28px; color: #333; margin-bottom: 25px; text-align: center; }
+  .prize-image { 
+    width: 220px; height: auto; object-fit: contain;
+    filter: drop-shadow(0 15px 30px rgba(0,0,0,0.15));
+    animation: prizeShow 1s cubic-bezier(0.17, 0.67, 0.83, 0.67);
+  }
+  @keyframes prizeShow { from { transform: scale(0.5); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
-/* Победа */
-.win-modal {
-  display: flex;
-  background: #fff;
-  border-radius: 20px;
-  overflow: hidden;
-}
+  #confetti { position: fixed; inset: 0; pointer-events: none; z-index: 9999; }
 
-.win-note-side {
-  padding: 20px;
-  background: #fffaf0;
-}
-
-.win-prize-side {
-  padding: 20px;
-  text-align: center;
-}
-
-#confetti {
-  position: fixed; inset: 0;
-  pointer-events: none;
-}
+  @media (max-width: 850px) {
+    .landing-layout { flex-direction: column; text-align: center; justify-content: center; gap: 50px; }
+    .win-modal { flex-direction: column; }
+    .decor { width: 150px !important; }
+    .hb-birthday { font-size: 70px; }
+  }
 </style>
 </head>
-
 <body>
 
 <canvas id="confetti"></canvas>
+<div class="bg-room"></div>
 
-<!-- Экран 1 -->
 <div class="screen active" id="s1">
-  <div class="bg-light"></div>
-
+  <img src="https://gcdnb.pbrd.co/images/WyTU7fWTxfr8.png?o=1" class="decor top-left">
+  <img src="https://gcdnb.pbrd.co/images/EKRHDiaBaFiN.png?o=1" class="decor top-right">
+  <img src="https://gcdnb.pbrd.co/images/Nouv0xVOiJED.png?o=1" class="decor side-left">
+  
   <div class="landing-layout">
-    <div>
-      <div class="hb-happy">Happy</div>
-      <div class="hb-birthday">Birthday</div>
-      <div class="hb-sub">Best Wishes!</div>
+    <div class="landing-text">
+      <span class="hb-happy">Happy</span>
+      <span class="hb-birthday">Birthday</span>
+      <span class="hb-sub">Best Wishes!</span>
     </div>
-
+    
     <div class="envelope-wrapper" onclick="goTo('s2')">
-      📩
+      <img src="https://gcdnb.pbrd.co/images/ClSXZWA3SoD2.png?o=1" class="envelope-img" alt="Конверт">
+      <p style="text-align: center; font-family: Montserrat; font-size: 14px; color: #8e6d51; margin-top: 15px; font-weight: 500;">Нажми, чтобы открыть</p>
     </div>
   </div>
 </div>
 
-<!-- Экран 2 -->
 <div class="screen" id="s2">
-  <div class="bg-room"></div>
-
-  <img src="https://cdn-icons-png.flaticon.com/512/3468/3468379.png" class="bottom-gifts-left">
-  <img src="https://cdn-icons-png.flaticon.com/512/3468/3468379.png" class="bottom-gifts-right">
+  <img src="https://gcdnb.pbrd.co/images/QpKiPxlGs5NC.png?o=1" class="decor bottom-left">
+  <img src="https://gcdnb.pbrd.co/images/NX7g7cYsMsbA.png?o=1" class="decor bottom-right">
 
   <div class="modal">
-    <h2>Мини-игра</h2>
-    <p>Угадай коробку 🎁</p>
-    <button class="btn" onclick="startGame()">Начать</button>
+    <h2 class="modal-title">Твой сюрприз ждет!</h2>
+    <p class="modal-text">
+      Чтобы получить свой подарок, пройди небольшое испытание.<br>
+      У тебя есть <b>3 попытки</b>, чтобы найти коробку,<br>в которой спрятан твой главный приз.
+    </p>
+    <button class="btn" onclick="startGame()">Начать игру</button>
   </div>
 </div>
 
-<!-- Экран 3 -->
 <div class="screen" id="s3">
-  <div class="bg-room"></div>
+  <img src="https://gcdnb.pbrd.co/images/KzG9YAeU9cTu.png?o=1" class="decor top-left" style="width: 300px;">
+  <img src="https://gcdnb.pbrd.co/images/I04Dp5EyxmmF.png?o=1" class="decor side-right">
 
   <div class="modal">
     <div class="hearts-container">
-      ❤️ ❤️ ❤️
+      <svg class="heart" id="h1" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+      <svg class="heart" id="h2" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+      <svg class="heart" id="h3" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
     </div>
-
+    
+    <div class="game-hint">Где же спрятан подарок? Угадай!</div>
+    
     <div class="boxes-container">
-      <button class="box-btn" onclick="pickBox(this)">🎁</button>
-      <button class="box-btn" onclick="pickBox(this)">🎁</button>
-      <button class="box-btn" onclick="pickBox(this)">🎁</button>
+      <button class="box-btn" onclick="pickBox(this)">
+        <svg width="80" height="80" viewBox="0 0 24 24" fill="#f035e0"><rect x="3" y="8" width="18" height="14" rx="2"></rect><path d="M12 8V22M19 8c0-3-3.5-5-7-2-3.5-3-7-1-7 2s3 4 7 4 7-1 7-4z" stroke="white" stroke-width="1.5"/></svg>
+      </button>
+      <button class="box-btn" onclick="pickBox(this)">
+        <svg width="80" height="80" viewBox="0 0 24 24" fill="#00d2ff"><rect x="3" y="8" width="18" height="14" rx="2"></rect><path d="M12 8V22M19 8c0-3-3.5-5-7-2-3.5-3-7-1-7 2s3 4 7 4 7-1 7-4z" stroke="white" stroke-width="1.5"/></svg>
+      </button>
+      <button class="box-btn" onclick="pickBox(this)">
+        <svg width="80" height="80" viewBox="0 0 24 24" fill="#a55eea"><rect x="3" y="8" width="18" height="14" rx="2"></rect><path d="M12 8V22M19 8c0-3-3.5-5-7-2-3.5-3-7-1-7 2s3 4 7 4 7-1 7-4z" stroke="white" stroke-width="1.5"/></svg>
+      </button>
     </div>
   </div>
 </div>
 
-<!-- Экран 4 -->
 <div class="screen" id="s4">
-  <div class="bg-room"></div>
+  <img src="https://gcdnb.pbrd.co/images/F8EnRj9D1giF.png?o=1" class="decor top-right" style="width: 350px;">
+  <img src="https://gcdnb.pbrd.co/images/iXUtKGAXPPbq.png?o=1" class="decor bottom-left" style="width: 200px;">
 
   <div class="win-modal">
     <div class="win-note-side">
-      🎉 Поздравляю! Ты выиграла!
+      <div class="note-text">
+        <p style="margin-bottom: 15px;"><b>Ура! Ты нашла его!</b></p>
+        <p>На самом деле, проиграть было невозможно. В этом мире ты всегда выигрываешь, потому что заслуживаешь только самого лучшего. Пусть этот подарок радует тебя каждый день!</p>
+      </div>
+      <div style="font-size: 50px; position: absolute; bottom: 30px; left: 40px;">🎂🎉💖</div>
     </div>
 
     <div class="win-prize-side">
-      <h3>Твой подарок 🎁</h3>
-      ❤️
+      <div class="win-prize-title">Твой заслуженный приз:</div>
+      <img src="https://gcdnb.pbrd.co/images/MuK71pVhfAW4.png?o=1" class="prize-image" alt="Микрофон">
     </div>
   </div>
 </div>
 
 <script>
-function goTo(id) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-}
-
-let lives = 3;
-
-function startGame() {
-  lives = 3;
-  goTo('s3');
-}
-
-function pickBox(btn) {
-  if (lives > 1) {
-    lives--;
-    btn.style.opacity = '0.3';
-    btn.disabled = true;
-  } else {
-    goTo('s4');
-    fireConfetti();
+  function goTo(screenId) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(screenId).classList.add('active');
   }
-}
 
-/* Конфетти */
-function fireConfetti() {
-  const canvas = document.getElementById('confetti');
-  const ctx = canvas.getContext('2d');
+  let lives = 3;
 
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-
-  let pieces = [];
-
-  for (let i = 0; i < 120; i++) {
-    pieces.push({
-      x: canvas.width / 2,
-      y: canvas.height / 2,
-      vx: (Math.random() - 0.5) * 10,
-      vy: Math.random() * -10,
-      size: Math.random() * 6
+  function startGame() {
+    lives = 3;
+    document.querySelectorAll('.heart').forEach(h => h.classList.remove('lost'));
+    document.querySelectorAll('.box-btn').forEach(b => {
+      b.style.opacity = '1';
+      b.style.pointerEvents = 'all';
     });
+    goTo('s3');
   }
 
-  function draw() {
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-
-    pieces.forEach(p => {
-      p.x += p.vx;
-      p.y += p.vy;
-      p.vy += 0.3;
-
-      ctx.fillRect(p.x, p.y, p.size, p.size);
-    });
-
-    requestAnimationFrame(draw);
+  function pickBox(btnElement) {
+    if (lives > 1) {
+      document.getElementById('h' + lives).classList.add('lost');
+      lives--;
+      btnElement.style.opacity = '0.2';
+      btnElement.style.pointerEvents = 'none';
+      btnElement.style.transform = 'scale(0.8)';
+    } else {
+      goTo('s4');
+      fireConfetti();
+    }
   }
 
-  draw();
-}
+  function fireConfetti() {
+    const canvas = document.getElementById('confetti');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    
+    const pieces = [];
+    const colors = ['#f035e0', '#00d2ff', '#d4af37', '#a55eea', '#ff4757', '#2ed573'];
+    
+    for (let i = 0; i < 200; i++) {
+      pieces.push({
+        x: canvas.width / 2,
+        y: canvas.height / 2,
+        vx: (Math.random() - 0.5) * 25,
+        vy: (Math.random() - 1) * 25,
+        size: Math.random() * 12 + 6,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        rotation: Math.random() * 360,
+        rotationSpeed: (Math.random() - 0.5) * 15
+      });
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      let active = false;
+      pieces.forEach(p => {
+        p.x += p.vx; p.y += p.vy; p.vy += 0.6; p.rotation += p.rotationSpeed;
+        if (p.y < canvas.height + 100) active = true;
+        ctx.save();
+        ctx.translate(p.x, p.y); ctx.rotate(p.rotation * Math.PI / 180);
+        ctx.fillStyle = p.color;
+        ctx.fillRect(-p.size/2, -p.size/2, p.size, p.size);
+        ctx.restore();
+      });
+      if (active) requestAnimationFrame(animate);
+    }
+    animate();
+  }
 </script>
 
 </body>
