@@ -21,12 +21,12 @@
     position: fixed; inset: 0; display: flex; align-items: center; justify-content: center;
     opacity: 0; pointer-events: none; transition: opacity 0.6s ease; overflow: hidden;
   }
-  .screen.active { opacity: 1; pointer-events: all; z-index: 10; }
+  .screen.active { opacity: 1; pointer-events: all; }
 
   /* ── ФОНЫ ── */
   .bg-room {
-    position: absolute; inset: 0; z-index: -2;
-    background: url('https://gcdnb.pbrd.co/images/nb4Rw683nyTY.png?o=1');
+    position: absolute; inset: 0; z-index: -5;
+    background: url('https://gcdnb.pbrd.co/images/nb4Rw683nyTY.png?o=1') center/cover no-repeat;
   }
 
   .bg-room {
