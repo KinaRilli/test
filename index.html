@@ -31,10 +31,8 @@
 
   .bg-room {
     position: absolute; inset: 0; z-index: -2;
-    /* Тот самый фон комнаты с белыми шарами */
     background: url('https://gcdnb.pbrd.co/images/EKRHDiaBaFiN.png?o=1') center/cover no-repeat;
   }
-  /* Затемнение для комнаты, чтобы текст лучше читался */
   .bg-room::after {
     content: ''; position: absolute; inset: 0; background: rgba(255,255,255,0.3);
   }
@@ -88,15 +86,17 @@
   .boxes-container { display: flex; justify-content: center; gap: 30px; }
   .box-btn { 
     background: none; border: none; cursor: pointer; transition: transform 0.2s;
-    animation: boxFloat 2.5s ease-in-out infinite;
+    animation: boxFloat 2.5s ease-in-out infinite; outline: none;
   }
   .box-btn:hover { transform: scale(1.1) translateY(-5px); }
   @keyframes boxFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
 
+  .gift-img { width: 100px; height: auto; }
+
   /* ── ПОБЕДА (Экран 6) ── */
   .win-modal {
     display: flex; max-width: 850px; width: 95%; background: #fff; border-radius: 24px;
-    overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.2); animation: slideUp 0.5s ease-out;
+    overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.2); animation: slideUp 0.5s ease-out; z-index: 10;
   }
   .win-note-side {
     flex: 1.2; padding: 40px; background: #fffaf0; position: relative; border-right: 1px solid #eee;
@@ -208,20 +208,19 @@
     <div class="game-hint">Желаю удачи угадать в каком из коробок твой подарок</div>
     
     <div class="boxes-container">
-  <button class="box-btn" onclick="pickBox(this)">
-    <img src="https://gcdnb.pbrd.co/images/uDPqNncqycjf.png?o=1" alt="Box 1" class="gift-img">
-  </button>
-  
-  <button class="box-btn" onclick="pickBox(this)">
-    <img src="https://gcdnb.pbrd.co/images/1M2VG2b4Y8pi.png?o=1" alt="Box 2" class="gift-img">
-  </button>
-  
-  <button class="box-btn" onclick="pickBox(this)">
-    <img src="https://gcdnb.pbrd.co/images/SrNkRig2rOMl.png?o=1" alt="Box 3" class="gift-img">
-  </button>
-</div>
-
-<div class="screen" id="s4"></div> <div class="screen" id="s6">
+      <button class="box-btn" onclick="pickBox(this)">
+        <img src="https://gcdnb.pbrd.co/images/uDPqNncqycjf.png?o=1" alt="Box 1" class="gift-img">
+      </button>
+      
+      <button class="box-btn" onclick="pickBox(this)">
+        <img src="https://gcdnb.pbrd.co/images/1M2VG2b4Y8pi.png?o=1" alt="Box 2" class="gift-img">
+      </button>
+      
+      <button class="box-btn" onclick="pickBox(this)">
+        <img src="https://gcdnb.pbrd.co/images/SrNkRig2rOMl.png?o=1" alt="Box 3" class="gift-img">
+      </button>
+    </div>
+  </div> </div> <div class="screen" id="s6">
   <div class="bg-room"></div>
   <div class="win-modal">
     <div class="win-note-side">
