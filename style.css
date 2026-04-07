@@ -5,11 +5,29 @@
   width: 90%;
   height: 95%;
 }
-.gift-img {
-  width: 100px; /* Размер как на твоем дизайне */
-  cursor: pointer;
-  transition: transform 0.3s;
+.boxes-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 30px;
 }
-.gift-img:hover {
+
+.box-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+  outline: none;
+}
+
+/* Эффект при наведении, как в играх */
+.box-btn:hover {
   transform: scale(1.1);
+}
+
+.gift-img {
+  width: 100px; /* Отрегулируй размер под свой экран */
+  height: auto;
+  display: block;
 }
