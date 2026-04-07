@@ -1,0 +1,15 @@
+.letter {
+  background: url('https://gcdnb.pbrd.co/images/1259HZc5czMk.png?o=1') no-repeat center;
+  background-size: 100% 100%;
+  padding: 40px 20px; /* Настрой отступы, чтобы текст не налезал на рисунки */
+  width: 90%;
+  height: 95%;
+}
+.gift-img {
+  width: 100px; /* Размер как на твоем дизайне */
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+.gift-img:hover {
+  transform: scale(1.1);
+}
