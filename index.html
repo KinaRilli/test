@@ -1,139 +1,269 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>С Днём Рождения!</title>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>С Днём Рождения!</title>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600;700&family=Montserrat:wght@300;400;500;600&family=Caveat:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --magenta: #f035e0;
+    --magenta-hover: #d020c0;
+    --text-dark: #333;
+    --text-light: #666;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 100%; height: 100%; overflow: hidden; font-family: 'Montserrat', sans-serif; }
+
+  .screen {
+    position: fixed; inset: 0; display: flex; align-items: center; justify-content: center;
+    opacity: 0; pointer-events: none; transition: opacity 0.6s ease; overflow: hidden;
+    background: white; /* Цвет по умолчанию, если фон не загрузится */
+  }
+  .screen.active { opacity: 1; pointer-events: all; }
+
+  .bg-light {
+    position: absolute; inset: 0; z-index: -5;
+    background: url('https://gcdnb.pbrd.co/images/nb4Rw683nyTY.png?o=1') center/cover no-repeat;
+  }
+
+  .bg-room {
+    position: absolute; inset: 0; z-index: -2;
+    background: url('https://gcdnb.pbrd.co/images/EKRHDiaBaFiN.png?o=1') center/cover no-repeat;
+  }
+  .bg-room::after {
+    content: ''; position: absolute; inset: 0; background: rgba(255,255,255,0.3);
+  }
+
+  .landing-layout { display: flex; width: 100%; max-width: 900px; justify-content: space-around; align-items: center; padding: 20px; }
+  .landing-text { text-align: center; color: #8e6d51; }
+  .hb-happy { font-weight: 500; font-size: clamp(30px, 4vw, 42px); display: block; margin-bottom: -10px; }
+  .hb-birthday { font-family: 'Dancing Script', cursive; font-size: clamp(60px, 8vw, 110px); display: block; line-height: 1; color: #a47b59;}
+  .hb-sub { font-weight: 300; font-size: 18px; letter-spacing: 2px; }
+
+  .env-float { cursor: pointer; transition: transform 0.3s; animation: float 3s ease-in-out infinite; }
+  .env-float:hover { transform: scale(1.05); }
+  @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+
+  .bday-card {
+    width: clamp(280px, 40vw, 400px); background: #fff; border-radius: 16px; overflow: hidden;
+    box-shadow: 0 15px 40px rgba(160,100,130,0.2); border: 1px solid rgba(220,180,200,0.3);
+    text-align: center; padding: 30px 20px; position: relative; z-index: 5;
+    background-image: repeating-linear-gradient(transparent, transparent 26px, rgba(180,160,200,0.1) 26px, rgba(180,160,200,0.1) 27px);
+  }
+  .bcard-title { font-family: 'Dancing Script', cursive; font-size: 32px; color: #9b7dc7; margin-bottom: 20px; font-weight: 700; }
+  .bcard-text { font-family: 'Caveat', cursive; font-size: 22px; color: #5a4060; line-height: 1.6; margin-bottom: 20px; }
+  
+  .modal {
+    background: rgba(255, 255, 255, 0.98); border-radius: 24px; box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+    padding: 40px; text-align: center; max-width: 500px; width: 90%;
+    animation: slideUp 0.5s ease-out; position: relative; z-index: 10;
+  }
+  @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+  .modal-title { font-size: 32px; font-weight: 400; color: var(--magenta); margin-bottom: 15px; }
+  .modal-text { font-size: 16px; color: var(--text-light); line-height: 1.6; margin-bottom: 30px; }
+  
+  .btn {
+    background: var(--magenta); color: #fff; font-family: 'Montserrat', sans-serif; font-size: 16px; font-weight: 600;
+    border: none; border-radius: 50px; padding: 15px 40px; cursor: pointer; transition: 0.2s; box-shadow: 0 8px 20px rgba(240, 53, 224, 0.4);
+  }
+  .btn:hover { background: var(--magenta-hover); transform: translateY(-2px); }
+
+  .hearts-container { display: flex; justify-content: center; gap: 10px; margin-bottom: 30px; }
+  .heart { width: 35px; height: 35px; fill: red; transition: 0.3s; }
+  .heart.lost { fill: #ccc; transform: scale(0.8); opacity: 0.5; }
+  
+  .boxes-container { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
+  .box-btn { background: none; border: none; cursor: pointer; transition: transform 0.2s; outline: none; }
+  .box-btn:hover { transform: scale(1.1); }
+  .gift-img { width: 100px; height: auto; display: block; }
+
+  .win-modal {
+    display: flex; max-width: 850px; width: 95%; background: #fff; border-radius: 24px;
+    overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.2); animation: slideUp 0.5s ease-out; z-index: 20;
+  }
+  .win-note-side {
+    flex: 1.2; padding: 40px; background: #fffaf0; border-right: 1px solid #eee;
+    background-image: repeating-linear-gradient(transparent, transparent 29px, #e8d0d8 30px);
+  }
+  .note-text { font-family: 'Caveat', cursive; font-size: 22px; line-height: 1.5; color: #4a3b42; }
+  .win-prize-side { flex: 1; padding: 40px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;}
+  .prize-image { max-width: 180px; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.2)); }
+
+  #confetti { position: fixed; inset: 0; pointer-events: none; z-index: 9999; }
+
+  @media (max-width: 768px) {
+    .win-modal { flex-direction: column; overflow-y: auto; max-height: 90vh; }
+    .win-note-side { border-right: none; border-bottom: 1px solid #eee; padding: 20px; }
+  }
+</style>
 </head>
 <body>
 
 <canvas id="confetti"></canvas>
-<div id="gameMsg" class="game-msg">Мимо! Ищи дальше 🎁</div>
 
 <div class="screen active" id="s1">
-  <div class="bg-balloons"></div>
-  <div class="split-layout">
-    <div class="title-text">
-      <img src="ССЫЛКА_НА_ТЕКСТ_HAPPY_BIRTHDAY.png" style="max-width: 300px;" alt="Happy Birthday">
+  <div class="bg-light"></div>
+  <div class="landing-layout">
+    <div class="landing-text">
+      <span class="hb-happy">Happy</span>
+      <span class="hb-birthday">Birthday</span>
+      <span class="hb-sub">Best Wishes!</span>
     </div>
-    <div>
-      <img src="ССЫЛКА_НА_ЗАКРЫТЫЙ_КОНВЕРТ.png" style="width: 400px; cursor: pointer;" onclick="goTo(2)">
-      <p style="text-align: center; color: #a47b59; margin-top: 10px;">✨ нажми, чтобы открыть ✨</p>
+    <div class="env-float" onclick="goTo(2)">
+      <img src="https://gcdnb.pbrd.co/images/Sbh350mn2wrW.png?o=1" style="width: clamp(250px, 30vw, 350px); height: auto;">
+      <div style="text-align: center; color: #a47b59; font-size: 14px; margin-top: 15px;">✨ нажми, чтобы открыть ✨</div>
     </div>
   </div>
 </div>
 
 <div class="screen" id="s2">
-  <div class="bg-balloons"></div>
-  <div class="split-layout">
-    <div class="title-text">
-      <img src="ССЫЛКА_НА_ТЕКСТ_HAPPY_BIRTHDAY.png" style="max-width: 300px;">
+  <div class="bg-light"></div>
+  <div class="landing-layout">
+    <div class="landing-text">
+      <span class="hb-happy">Happy</span>
+      <span class="hb-birthday">Birthday</span>
+      <span class="hb-sub">Best Wishes!</span>
     </div>
-    <div>
-      <img src="ССЫЛКА_НА_ОТКРЫТЫЙ_КОНВЕРТ.png" style="width: 400px;">
+    <div class="env-float">
+      <svg width="300" viewBox="0 0 320 288" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="54" y="8" width="212" height="158" rx="10" fill="white" stroke="#e8d0e0" stroke-width="0.8"/>
+        <text x="160" y="45" text-anchor="middle" font-family="Dancing Script,cursive" font-size="22" fill="#9b7dc7" font-weight="700">С Днём Рождения!</text>
+        <text x="160" y="85" text-anchor="middle" font-family="Caveat,cursive" font-size="14" fill="#7a5060">Желаю тебе счастья,</text>
+        <text x="160" y="105" text-anchor="middle" font-family="Caveat,cursive" font-size="14" fill="#7a5060">вдохновения и любви!</text>
+        <rect x="8" y="104" width="304" height="174" rx="13" fill="#f8f2fe" stroke="#d0b8e8" stroke-width="1"/>
+        <polygon points="8,104 160,6 312,104" fill="#dcc0e8" stroke="#c0a8d8" stroke-width="0.9"/>
+        <line x1="8" y1="278" x2="160" y2="188" stroke="#d0b8e8" stroke-width="0.7"/>
+        <line x1="312" y1="278" x2="160" y2="188" stroke="#d0b8e8" stroke-width="0.7"/>
+      </svg>
     </div>
   </div>
 </div>
 
 <div class="screen" id="s3">
-  <div class="bg-balloons"></div>
-  <div style="text-align: center; z-index: 10;">
-    <img src="ССЫЛКА_НА_БОЛЬШОЕ_ПИСЬМО.png" style="max-width: 400px; display: block; margin: 0 auto;">
-    <button class="btn" style="background-color: #d175ff; margin-top: -80px; position: relative;" onclick="goTo(4)">Сюда</button>
+  <div class="bg-light"></div>
+  <div class="bday-card">
+    <div class="bcard-title">С Днём Рождения!</div>
+    <div class="bcard-text">
+      Желаю тебе счастья, вдохновения, любви и исполнения всех заветных желаний!<br><br>
+      Пусть каждый твой день приносит радость и улыбки!
+    </div>
+    <div style="font-size: 14px; color: #8060a0; margin-bottom: 15px;">Нажми сюда, чтобы получить подарок.</div>
+    <button class="btn" onclick="goTo(4)">Сюда</button>
   </div>
 </div>
 
 <div class="screen" id="s4">
   <div class="bg-room"></div>
   <div class="modal">
-    <img src="ССЫЛКА_НА_ИКОНКУ_ПОДАРКА_МАДЖЕНТА.png" style="width: 80px;">
-    <h2 style="color: #f035e0; margin: 15px 0; font-size: 32px;">Мини-игра</h2>
-    <p>Выиграй в мини игре что бы получить подарок у тебя есть только 3 жизни что бы угадать в каком из коробок твой подарок.</p>
+    <h2 class="modal-title">Мини-игра</h2>
+    <p class="modal-text">
+      Угадай, в какой из коробок твой подарок.<br>
+      У тебя есть только 3 жизни!
+    </p>
     <button class="btn" onclick="startGame()">Начать игру</button>
   </div>
 </div>
 
 <div class="screen" id="s5">
   <div class="bg-room"></div>
-  <div class="modal" style="background: rgba(255,255,255,0.95);">
-    <div class="hearts-container" id="hearts">
+  <div class="modal">
+    <div class="hearts-container">
       <svg class="heart" id="h1" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
       <svg class="heart" id="h2" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
       <svg class="heart" id="h3" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
     </div>
-    
-    <h3 style="font-family: 'Caveat', cursive; font-size: 24px; margin-bottom: 20px;">Желаю удачи угадать в каком из коробок твой подарок</h3>
-    
-    <div class="game-boxes">
-      <button class="box-btn" onclick="pickBox(this)"><img src="ССЫЛКА_НА_ГОЛУБУЮ_КОРОБКУ.png"></button>
-      <button class="box-btn" onclick="pickBox(this)"><img src="ССЫЛКА_НА_СИНЮЮ_КОРОБКУ.png"></button>
-      <button class="box-btn" onclick="pickBox(this)"><img src="ССЫЛКА_НА_ФИОЛЕТОВУЮ_КОРОБКУ.png"></button>
+    <div class="boxes-container">
+      <button class="box-btn" onclick="pickBox(this)"><img src="https://gcdnb.pbrd.co/images/uDPqNncqycjf.png?o=1" class="gift-img"></button>
+      <button class="box-btn" onclick="pickBox(this)"><img src="https://gcdnb.pbrd.co/images/1M2VG2b4Y8pi.png?o=1" class="gift-img"></button>
+      <button class="box-btn" onclick="pickBox(this)"><img src="https://gcdnb.pbrd.co/images/SrNkRig2rOMl.png?o=1" class="gift-img"></button>
     </div>
   </div>
 </div>
 
 <div class="screen" id="s6">
   <div class="bg-room"></div>
-  <div class="final-layout">
-    <div>
-      <img src="ССЫЛКА_НА_ФИНАЛЬНОЕ_ПИСЬМО.png" style="max-width: 350px;">
+  <div class="win-modal">
+    <div class="win-note-side">
+      <div class="note-text">
+        <p>Поздравляю! Ты нашла свой подарок.</p><br>
+        <p>На самом деле, проиграть было невозможно. Я специально настроил игру так, чтобы ты выиграла в любом случае! 🎂🎉</p>
+      </div>
     </div>
-    <div style="text-align: center;">
-      <h2 style="font-family: 'Caveat', cursive; font-size: 32px; margin-bottom: 20px;">Вот твой подарок который ты заслужила</h2>
-      <img src="ССЫЛКА_НА_МИКРОФОН_HYPERX.png" style="max-width: 250px;">
+    <div class="win-prize-side">
+      <h3 style="font-family: Caveat; font-size: 24px; margin-bottom: 20px;">Твой подарок:</h3>
+      <img src="https://gcdnb.pbrd.co/images/KzG9YAeU9cTu.png?o=1" class="prize-image" alt="Prize">
     </div>
   </div>
 </div>
 
 <script>
-  // Логика переходов экранов
-  function goTo(id) {
+  function goTo(screenId) {
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-    document.getElementById('s' + id).classList.add('active');
+    const target = document.getElementById('s' + screenId);
+    if(target) {
+      target.classList.add('active');
+    }
     
-    // Авто-переход от открытого конверта (Экран 2) к Письму (Экран 3) через 1.5 секунды
-    if(id === 2) setTimeout(() => goTo(3), 1500);
+    if (screenId === 2) {
+      setTimeout(() => goTo(3), 1500);
+    }
   }
 
   let lives = 3;
-  
-  function startGame() { 
-    lives = 3; 
+
+  function startGame() {
+    lives = 3;
     document.querySelectorAll('.heart').forEach(h => h.classList.remove('lost'));
-    goTo(5); 
+    document.querySelectorAll('.box-btn').forEach(b => {
+      b.style.opacity = '1';
+      b.style.pointerEvents = 'all';
+    });
+    goTo(5);
   }
 
-  function pickBox(btn) {
+  function pickBox(btnElement) {
     if (lives > 1) {
-      const msg = document.getElementById('gameMsg');
-      msg.style.display = 'block';
-      setTimeout(() => msg.style.display = 'none', 1000);
       document.getElementById('h' + lives).classList.add('lost');
       lives--;
+      btnElement.style.opacity = '0.3';
+      btnElement.style.pointerEvents = 'none';
     } else {
       goTo(6);
       fireConfetti();
     }
   }
 
-  // Салют в конце
   function fireConfetti() {
     const canvas = document.getElementById('confetti');
     const ctx = canvas.getContext('2d');
-    canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-    let particles = Array.from({length: 150}, () => ({
-      x: Math.random() * canvas.width, y: Math.random() * canvas.height - canvas.height,
-      v: Math.random() * 4 + 2, c: ['#f035e0', '#00d2ff', '#ffeb3b', '#4caf50'][Math.floor(Math.random()*4)]
-    }));
-    function draw() {
-      ctx.clearRect(0,0,canvas.width, canvas.height);
-      particles.forEach(p => { p.y += p.v; ctx.fillStyle = p.c; ctx.fillRect(p.x, p.y, 8, 8); });
-      requestAnimationFrame(draw);
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    const pieces = [];
+    const colors = ['#f035e0', '#00d2ff', '#d4af37', '#a55eea'];
+    for (let i = 0; i < 150; i++) {
+      pieces.push({
+        x: canvas.width / 2, y: canvas.height / 2,
+        vx: (Math.random() - 0.5) * 20, vy: (Math.random() - 1) * 20,
+        size: Math.random() * 8 + 4, color: colors[Math.floor(Math.random() * colors.length)]
+      });
     }
-    draw();
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      let active = false;
+      pieces.forEach(p => {
+        p.x += p.vx; p.y += p.vy; p.vy += 0.5;
+        if (p.y < canvas.height) active = true;
+        ctx.fillStyle = p.color;
+        ctx.fillRect(p.x, p.y, p.size, p.size);
+      });
+      if (active) requestAnimationFrame(animate);
+    }
+    animate();
   }
 </script>
+
 </body>
 </html>
