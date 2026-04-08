@@ -4,87 +4,136 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>С Днём Рождения!</title>
-  
-  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600;700&family=Montserrat:wght@300;400;500;600&family=Caveat:wght@400;600&display=swap" rel="stylesheet">
-  
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <canvas id="confetti"></canvas>
+<div id="gameMsg" class="game-msg">Мимо! Ищи дальше 🎁</div>
 
 <div class="screen active" id="s1">
-  <div class="bg-light"></div>
-  <div class="landing-layout">
-    <div class="landing-text">
-      <span class="hb-birthday">Birthday</span>
+  <div class="bg-balloons"></div>
+  <div class="split-layout">
+    <div class="title-text">
+      <img src="ССЫЛКА_НА_ТЕКСТ_HAPPY_BIRTHDAY.png" style="max-width: 300px;" alt="Happy Birthday">
     </div>
-    <div class="env-float" onclick="goTo(2)">
-      <img src="https://gcdnb.pbrd.co/images/Sbh350mn2wrW.png?o=1" style="width: 250px;">
+    <div>
+      <img src="ССЫЛКА_НА_ЗАКРЫТЫЙ_КОНВЕРТ.png" style="width: 400px; cursor: pointer;" onclick="goTo(2)">
+      <p style="text-align: center; color: #a47b59; margin-top: 10px;">✨ нажми, чтобы открыть ✨</p>
+    </div>
+  </div>
+</div>
+
+<div class="screen" id="s2">
+  <div class="bg-balloons"></div>
+  <div class="split-layout">
+    <div class="title-text">
+      <img src="ССЫЛКА_НА_ТЕКСТ_HAPPY_BIRTHDAY.png" style="max-width: 300px;">
+    </div>
+    <div>
+      <img src="ССЫЛКА_НА_ОТКРЫТЫЙ_КОНВЕРТ.png" style="width: 400px;">
+    </div>
+  </div>
+</div>
+
+<div class="screen" id="s3">
+  <div class="bg-balloons"></div>
+  <div style="text-align: center; z-index: 10;">
+    <img src="ССЫЛКА_НА_БОЛЬШОЕ_ПИСЬМО.png" style="max-width: 400px; display: block; margin: 0 auto;">
+    <button class="btn" style="background-color: #d175ff; margin-top: -80px; position: relative;" onclick="goTo(4)">Сюда</button>
+  </div>
+</div>
+
+<div class="screen" id="s4">
+  <div class="bg-room"></div>
+  <div class="modal">
+    <img src="ССЫЛКА_НА_ИКОНКУ_ПОДАРКА_МАДЖЕНТА.png" style="width: 80px;">
+    <h2 style="color: #f035e0; margin: 15px 0; font-size: 32px;">Мини-игра</h2>
+    <p>Выиграй в мини игре что бы получить подарок у тебя есть только 3 жизни что бы угадать в каком из коробок твой подарок.</p>
+    <button class="btn" onclick="startGame()">Начать игру</button>
+  </div>
+</div>
+
+<div class="screen" id="s5">
+  <div class="bg-room"></div>
+  <div class="modal" style="background: rgba(255,255,255,0.95);">
+    <div class="hearts-container" id="hearts">
+      <svg class="heart" id="h1" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+      <svg class="heart" id="h2" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+      <svg class="heart" id="h3" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+    </div>
+    
+    <h3 style="font-family: 'Caveat', cursive; font-size: 24px; margin-bottom: 20px;">Желаю удачи угадать в каком из коробок твой подарок</h3>
+    
+    <div class="game-boxes">
+      <button class="box-btn" onclick="pickBox(this)"><img src="ССЫЛКА_НА_ГОЛУБУЮ_КОРОБКУ.png"></button>
+      <button class="box-btn" onclick="pickBox(this)"><img src="ССЫЛКА_НА_СИНЮЮ_КОРОБКУ.png"></button>
+      <button class="box-btn" onclick="pickBox(this)"><img src="ССЫЛКА_НА_ФИОЛЕТОВУЮ_КОРОБКУ.png"></button>
+    </div>
+  </div>
+</div>
+
+<div class="screen" id="s6">
+  <div class="bg-room"></div>
+  <div class="final-layout">
+    <div>
+      <img src="ССЫЛКА_НА_ФИНАЛЬНОЕ_ПИСЬМО.png" style="max-width: 350px;">
+    </div>
+    <div style="text-align: center;">
+      <h2 style="font-family: 'Caveat', cursive; font-size: 32px; margin-bottom: 20px;">Вот твой подарок который ты заслужила</h2>
+      <img src="ССЫЛКА_НА_МИКРОФОН_HYPERX.png" style="max-width: 250px;">
     </div>
   </div>
 </div>
 
 <script>
-  // Здесь остается только JavaScript (функции goTo, pickBox, fireConfetti)
-  // Не переноси их в CSS файл, они работают только здесь или в .js файле
-  function goTo(screenId) {
+  // Логика переходов экранов
+  function goTo(id) {
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-    const target = document.getElementById('s' + screenId);
-    if(target) target.classList.add('active');
-    if (screenId === 2) setTimeout(() => goTo(3), 1500);
+    document.getElementById('s' + id).classList.add('active');
+    
+    // Авто-переход от открытого конверта (Экран 2) к Письму (Экран 3) через 1.5 секунды
+    if(id === 2) setTimeout(() => goTo(3), 1500);
   }
 
   let lives = 3;
-  function startGame() {
-    lives = 3;
+  
+  function startGame() { 
+    lives = 3; 
     document.querySelectorAll('.heart').forEach(h => h.classList.remove('lost'));
-    goTo(5);
+    goTo(5); 
   }
 
   function pickBox(btn) {
     if (lives > 1) {
       const msg = document.getElementById('gameMsg');
-      if(msg) {
-        msg.style.display = 'block';
-        setTimeout(() => { msg.style.display = 'none'; }, 1000);
-      }
-      const heart = document.getElementById('h' + lives);
-      if(heart) heart.classList.add('lost');
+      msg.style.display = 'block';
+      setTimeout(() => msg.style.display = 'none', 1000);
+      document.getElementById('h' + lives).classList.add('lost');
       lives--;
-      btn.style.transform = 'translateX(5px)';
-      setTimeout(() => { btn.style.transform = 'translateX(-5px)'; }, 50);
-      setTimeout(() => { btn.style.transform = 'translateX(0)'; }, 100);
     } else {
       goTo(6);
       fireConfetti();
     }
   }
 
+  // Салют в конце
   function fireConfetti() {
     const canvas = document.getElementById('confetti');
     const ctx = canvas.getContext('2d');
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    const pieces = [];
-    for (let i = 0; i < 100; i++) {
-      pieces.push({
-        x: Math.random() * canvas.width, y: Math.random() * canvas.height - canvas.height,
-        v: Math.random() * 3 + 2, color: '#f035e0'
-      });
-    }
-    function update() {
+    canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+    let particles = Array.from({length: 150}, () => ({
+      x: Math.random() * canvas.width, y: Math.random() * canvas.height - canvas.height,
+      v: Math.random() * 4 + 2, c: ['#f035e0', '#00d2ff', '#ffeb3b', '#4caf50'][Math.floor(Math.random()*4)]
+    }));
+    function draw() {
       ctx.clearRect(0,0,canvas.width, canvas.height);
-      pieces.forEach(p => {
-        p.y += p.v;
-        ctx.fillStyle = p.color;
-        ctx.fillRect(p.x, p.y, 5, 5);
-      });
-      requestAnimationFrame(update);
+      particles.forEach(p => { p.y += p.v; ctx.fillStyle = p.c; ctx.fillRect(p.x, p.y, 8, 8); });
+      requestAnimationFrame(draw);
     }
-    update();
+    draw();
   }
 </script>
-
 </body>
 </html>
