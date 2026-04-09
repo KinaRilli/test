@@ -106,14 +106,56 @@
 
   #confetti { position: fixed; inset: 0; pointer-events: none; z-index: 9999; }
 
-  @media (max-width: 768px) {
+ @media (max-width: 768px) {
     .landing-layout { flex-direction: column; gap: 40px; }
     .win-modal { flex-direction: column; }
     .win-note-side { border-right: none; border-bottom: 1px solid #eee; }
+  } /* Это последняя скобка твоего старого кода */
+
+  /* ВСТАВЛЯЙ СЮДА: */
+  .combined-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    width: 95%;
+    max-width: 900px;
+    position: relative;
   }
-</style>
-</head>
-<body>
+
+  .envelope-wrapper {
+    position: relative;
+    z-index: 2;
+  }
+
+  .letter-slide {
+    position: relative;
+    z-index: 1;
+    opacity: 0;
+    transform: translateX(150px) scale(0.9);
+    transition: all 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition-delay: 0.2s;
+  }
+
+  .screen.active .letter-slide {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+
+  @media (max-width: 768px) {
+    .combined-container {
+      flex-direction: column-reverse;
+      gap: 30px;
+    }
+    .letter-slide {
+      transform: translateY(100px) scale(0.9);
+    }
+    .screen.active .letter-slide {
+      transform: translateY(0) scale(1);
+    }
+  }
+
+</style> ```
 
 <canvas id="confetti"></canvas>
 
@@ -134,30 +176,24 @@
 
 <div class="screen" id="s2">
   <div class="bg-light"></div>
-  <div class="landing-layout">
-    <div class="landing-text">
-      <span class="hb-happy">Happy</span>
-      <span class="hb-birthday">Birthday</span>
-      <span class="hb-sub">Best Wishes!</span>
+  <div class="combined-container">
+    
+    <div class="bday-card letter-slide" style="background-image: url('https://gcdnb.pbrd.co/images/1259HZc5czMk.png?o=1'); background-size: cover; background-position: center; background-repeat: no-repeat; border: none; margin: 0;">
+      <div class="bcard-title">С Днём Рождения!</div>
+      <div class="bcard-text">
+        Желаю тебе счастья, вдохновения, любви и исполнения всех заветных желаний!<br><br>
+        Пусть каждый твой день приносит радость и улыбки!
+      </div>
+      <div style="font-size: 14px; color: #8060a0; margin-bottom: 15px; font-family: 'Caveat', cursive; font-weight: bold;">
+        Нажми сюда, чтобы получить свой подарок.
+      </div>
+      <button class="btn" onclick="goTo(4)" style="padding: 12px 30px;">Сюда</button>
     </div>
-    <div class="env-float">
-      <img src="https://gcdnb.pbrd.co/images/Bgbqrsgo0ctt.png?o=1" alt="Открытый конверт" style="width: auto; height: clamp(350px, 40vh, 450px); display: block;">
+
+    <div class="envelope-wrapper">
+      <img src="https://gcdnb.pbrd.co/images/Bgbqrsgo0ctt.png?o=1" alt="Открытый конверт" style="width: auto; height: clamp(250px, 35vh, 400px); display: block;">
     </div>
-  </div>
-</div>
-  
-<div class="screen" id="s3">
-  <div class="bg-light"></div>
-  <div class="bday-card" style="background-image: url('https://gcdnb.pbrd.co/images/1259HZc5czMk.png?o=1'); background-size: cover; background-position: center; background-repeat: no-repeat; border: none;">
-    <div class="bcard-title">С Днём Рождения!</div>
-    <div class="bcard-text">
-      Желаю тебе счастья, вдохновения, любви и исполнения всех заветных желаний!<br><br>
-      Пусть каждый твой день приносит радость и улыбки!
-    </div>
-    <div style="font-size: 14px; color: #8060a0; margin-bottom: 15px; font-family: 'Caveat', cursive; font-weight: bold;">
-      Нажми сюда, чтобы получить свой подарок.
-    </div>
-    <button class="btn" onclick="goTo(4)" style="padding: 12px 30px;">Сюда</button>
+
   </div>
 </div>
 
@@ -213,10 +249,6 @@
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     const target = document.getElementById('s' + screenId);
     if(target) target.classList.add('active');
-    
-    if (screenId === 2) {
-      setTimeout(() => goTo(3), 1500);
-    }
   }
 
   let lives = 3;
