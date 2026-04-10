@@ -277,31 +277,37 @@
 
   let lives = 3;
 
- function startGame() {
+  function startGame() {
     lives = 3;
-    document.querySelector('.game-hint').innerText = "Желаю удачи угадать, в какой из коробок твой подарок"; // Сбрасываем текст
+    document.querySelector('.game-hint').innerText = "Желаю удачи угадать, в какой из коробок твой подарок";
     document.querySelectorAll('.heart').forEach(h => h.classList.remove('lost'));
     document.querySelectorAll('.box-btn').forEach(b => {
       b.style.opacity = '1';
       b.style.pointerEvents = 'all';
       b.style.transform = 'scale(1)';
+      b.classList.remove('shake');
     });
     goTo(5);
   }
 
   function pickBox(btnElement) {
     if (lives > 1) {
+      // Отнимаем жизнь
       document.getElementById('h' + lives).classList.add('lost');
       lives--;
+
+      // Эффект тряски
       btnElement.classList.add('shake');
       setTimeout(() => {
         btnElement.classList.remove('shake');
       }, 500);
+
+      // Исправленная строка с подсказками
+      const hints = ["Тут пусто...", "Попробуй снова!", "Не угадала!", "Ой мимо!"];
+      document.querySelector('.game-hint').innerText = hints[Math.floor(Math.random() * hints.length)];
       
-      const hints = ["Тут пусто...", "Попробуй снова!", "Не угадала!","Ой мимо!"];
-      document.querySelector('.game-hint').innerText = hints[Math.floor(Math.random()
-                                                                        
     } else {
+      // Переход к победе
       goTo(6);
       fireConfetti();
     }
@@ -336,6 +342,3 @@
     animate();
   }
 </script>
-
-</body>
-</html>
