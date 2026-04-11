@@ -22,46 +22,50 @@
   }
   .screen.active { opacity: 1; pointer-events: all; }
 
+  /* Фоны */
   .bg-light {
     position: absolute; inset: 0; z-index: -5;
     background: url('https://gcdnb.pbrd.co/images/nb4Rw683nyTY.png?o=1') center/cover no-repeat;
   }
-
   .bg-room {
     position: absolute; inset: 0; z-index: -2;
     background: url('https://gcdnb.pbrd.co/images/EKRHDiaBaFiN.png?o=1') center/cover no-repeat;
   }
-  .bg-room::after {
-    content: ''; position: absolute; inset: 0; background: rgba(255,255,255,0.3);
-  }
+  .bg-room::after { content: ''; position: absolute; inset: 0; background: rgba(255,255,255,0.3); }
 
-  /* Стили лендинга */
+  /* ЭКРАН 1: Landing */
   .landing-layout { display: flex; width: 100%; max-width: 900px; justify-content: space-around; align-items: center; padding: 20px; }
   .landing-text { text-align: center; color: #8e6d51; }
   .hb-happy { font-weight: 500; font-size: clamp(30px, 4vw, 42px); display: block; margin-bottom: -10px; }
-  .hb-birthday { font-family: 'Dancing Script', cursive; font-size: clamp(60px, 8vw, 110px); display: block; line-height: 1; color: #a47b59; }
+  .hb-birthday { font-family: 'Dancing Script', cursive; font-size: clamp(60px, 8vw, 110px); display: block; line-height: 1; color: #a47b59;}
   
-  .env-float { cursor: pointer; transition: transform 0.3s; animation: float 3s ease-in-out infinite; }
+  .env-float { cursor: pointer; transition: transform 0.3s; animation: float 3s ease-in-out infinite; text-align: center;}
   @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
 
-  /* Стили карточек и модалок */
-  .modal, .bday-card {
+  /* ЭКРАН 2: Письмо и Конверт */
+  .combined-container { display: flex; align-items: center; justify-content: center; width: 95%; max-width: 1100px; position: relative; }
+  
+  .bday-card {
+    background: #fff; border-radius: 16px; overflow: hidden;
+    box-shadow: 0 15px 40px rgba(160,100,130,0.2); border: 1px solid rgba(220,180,200,0.3);
+    text-align: center; padding: 30px 20px; z-index: 5;
+  }
+  .bcard-title { font-family: 'Dancing Script', cursive; font-size: 32px; color: #9b7dc7; margin-bottom: 20px; font-weight: 700; }
+  .bcard-text { font-family: 'Caveat', cursive; font-size: 22px; color: #5a4060; line-height: 1.6; margin-bottom: 20px; }
+
+  .letter-slide {
+    opacity: 0; transition: all 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+  .screen.active .letter-slide { opacity: 1; transform: translate(0) scale(1) !important; }
+
+  /* ЭКРАН 5: Игра */
+  .modal {
     background: rgba(255, 255, 255, 0.98); border-radius: 24px; box-shadow: 0 20px 50px rgba(0,0,0,0.15);
-    padding: 40px; text-align: center; max-width: 500px; width: 90%;
-    animation: slideUp 0.5s ease-out; position: relative;
+    padding: 40px; text-align: center; max-width: 500px; width: 90%; animation: slideUp 0.5s ease-out;
   }
   @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-
-  .btn {
-    background: var(--magenta); color: #fff; font-weight: 600; border: none; 
-    border-radius: 50px; padding: 15px 40px; cursor: pointer; transition: 0.2s;
-    box-shadow: 0 8px 20px rgba(240, 53, 224, 0.4);
-  }
-  .btn:hover { transform: translateY(-2px); background: var(--magenta-hover); }
-
-  /* Игра */
   .hearts-container { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; }
-  .heart { width: 35px; height: 35px; fill: red; }
+  .heart { width: 35px; height: 35px; fill: red; transition: 0.3s; }
   .heart.lost { fill: #ccc; transform: scale(0.8); opacity: 0.5; }
   .game-hint { font-family: 'Caveat', cursive; font-size: 28px; margin-bottom: 30px; }
   .boxes-container { display: flex; justify-content: center; gap: 20px; }
@@ -70,37 +74,54 @@
   .shake { animation: shake 0.5s ease-in-out; }
   @keyframes shake { 0%, 100% { transform: translateX(0); } 20%, 60% { transform: translateX(-10px); } 40%, 80% { transform: translateX(10px); } }
 
-  /* --- ФИНАЛЬНЫЙ ЭКРАН (S6) --- */
+  /* ЭКРАН 6: Победа */
   .win-modal-container { display: flex; justify-content: center; align-items: center; width: 100%; }
   .win-modal {
     display: flex; max-width: 900px; width: 95%; background: #fff; border-radius: 24px;
-    overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+    overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.2); animation: slideUp 0.5s ease-out;
   }
+  .win-note-side { flex: 1.2; padding: 40px; position: relative; display: flex; flex-direction: column; justify-content: center; }
+  .note-text { font-family: 'Caveat', cursive; font-size: 22px; line-height: 1.5; color: #4a3b42; }
+  .win-prize-side { flex: 1; padding: 40px; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #fdfdfd; border-left: 1px solid #eee; }
+  .prize-image { max-width: 150px; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.15)); animation: zoomIn 0.8s; }
+  @keyframes zoomIn { from { transform: scale(0); } to { transform: scale(1); } }
 
+  /* Общие кнопки */
+  .btn {
+    background: var(--magenta); color: #fff; font-family: 'Montserrat', sans-serif; font-size: 16px; font-weight: 600;
+    border: none; border-radius: 50px; padding: 15px 40px; cursor: pointer; transition: 0.2s; box-shadow: 0 8px 20px rgba(240, 53, 224, 0.4);
+  }
+  .btn:hover { background: var(--magenta-hover); transform: translateY(-2px); }
+
+  #confetti { position: fixed; inset: 0; pointer-events: none; z-index: 9999; }
+
+  /* --- РАЗДЕЛЕНИЕ ПК И СМАРТФОНОВ --- */
+
+  /* ПК (Desktop) */
   @media (min-width: 769px) {
-    .win-modal { flex-direction: row; min-height: 450px; }
-    .win-note-side {
-      flex: 1.2; padding: 50px;
-      background: url('https://gcdnb.pbrd.co/images/1259HZc5czMk.png?o=1') center/cover no-repeat;
-      display: flex; flex-direction: column; justify-content: center;
-    }
-    .win-prize-side { flex: 1; padding: 40px; display: flex; flex-direction: column; align-items: center; justify-content: center; border-left: 1px solid #eee; }
+    .combined-container { gap: 80px; flex-direction: row; }
+    .bday-card { width: 500px; transform: translateX(150px) scale(0.9); } /* Начальная позиция для анимации */
+    .win-modal { flex-direction: row; }
+    .win-note-side { background: url('https://gcdnb.pbrd.co/images/1259HZc5czMk.png?o=1') center/cover; }
   }
 
+  /* Смартфоны (Mobile) */
   @media (max-width: 768px) {
     .landing-layout { flex-direction: column; gap: 40px; }
-    .win-modal {
-      flex-direction: column; max-width: 350px;
-      background: url('https://gcdnb.pbrd.co/images/1259HZc5czMk.png?o=1') center/cover no-repeat;
+    .combined-container { flex-direction: column-reverse; gap: 20px; }
+    .bday-card { width: 90%; transform: translateY(100px) scale(0.9); }
+    .envelope-wrapper img { height: 250px; }
+    
+    .win-modal { flex-direction: column; max-width: 350px; }
+    .win-note-side { 
+        padding: 30px 20px; 
+        background: url('https://gcdnb.pbrd.co/images/1259HZc5czMk.png?o=1') center/cover;
+        text-align: center;
     }
-    .win-note-side { padding: 30px 20px 10px; text-align: center; }
-    .win-prize-side { padding: 10px 20px 30px; display: flex; flex-direction: column; align-items: center; }
+    .win-prize-side { border-left: none; border-top: 1px solid #eee; padding: 20px; }
+    .boxes-container { gap: 10px; }
+    .box-btn img { width: 80px; }
   }
-
-  .note-text { font-family: 'Caveat', cursive; font-size: 22px; color: #4a3b42; }
-  .prize-image { max-width: 150px; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.2)); animation: zoomIn 0.8s; }
-  @keyframes zoomIn { from { transform: scale(0); } to { transform: scale(1); } }
-  #confetti { position: fixed; inset: 0; pointer-events: none; z-index: 9999; }
 </style>
 </head>
 <body>
@@ -116,7 +137,7 @@
       <span class="hb-sub">Best Wishes!</span>
     </div>
     <div class="env-float" onclick="goTo(2)">
-      <img src="https://gcdnb.pbrd.co/images/Sbh350mn2wrW.png?o=1" style="width: 280px;">
+      <img src="https://gcdnb.pbrd.co/images/Sbh350mn2wrW.png?o=1" style="width: clamp(250px, 30vw, 350px); height: auto;">
       <div style="text-align: center; color: #a47b59; font-size: 14px; margin-top: 15px;">✨ нажми, чтобы открыть ✨</div>
     </div>
   </div>
@@ -124,21 +145,28 @@
 
 <div class="screen" id="s2">
   <div class="bg-light"></div>
-  <div class="bday-card" style="background: url('https://gcdnb.pbrd.co/images/1259HZc5czMk.png?o=1') center/cover;">
-    <h2 style="font-family: 'Dancing Script'; margin-bottom: 15px;">С Днём Рождения!</h2>
-    <p style="font-family: 'Caveat'; font-size: 20px; margin-bottom: 20px;">
-      Желаю тебе счастья, вдохновения и любви!<br>Пусть каждый день приносит радость.
-    </p>
-    <button class="btn" onclick="goTo(4)">Получить подарок</button>
+  <div class="combined-container">
+    <div class="bday-card letter-slide" style="background-image: url('https://gcdnb.pbrd.co/images/1259HZc5czMk.png?o=1'); background-size: cover;">
+      <div class="bcard-title">С Днём Рождения!</div>
+      <div class="bcard-text">
+        Желаю тебе счастья, вдохновения, любви и исполнения всех заветных желаний!<br><br>
+        Пусть каждый твой день приносит радость!
+      </div>
+      <button class="btn" onclick="goTo(4)">Сюда</button>
+    </div>
+    <div class="envelope-wrapper">
+      <img src="https://gcdnb.pbrd.co/images/Bgbqrsgo0ctt.png?o=1" alt="Конверт" style="width: auto; height: clamp(300px, 45vh, 500px);">
+    </div>
   </div>
 </div>
 
 <div class="screen" id="s4">
   <div class="bg-room"></div>
   <div class="modal">
+    <img src="https://gcdnb.pbrd.co/images/724td540b4Fy.png" style="width: 80px; margin-bottom: 15px;">
     <h2 class="modal-title">Мини-игра</h2>
-    <p class="modal-text">Угадай, в какой коробке подарок. У тебя 3 жизни!</p>
-    <button class="btn" onclick="startGame()">Начать</button>
+    <p class="modal-text">Выиграй подарок! У тебя 3 жизни, чтобы угадать коробку.</p>
+    <button class="btn" onclick="startGame()">Начать игру</button>
   </div>
 </div>
 
@@ -150,11 +178,11 @@
       <svg class="heart" id="h2" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
       <svg class="heart" id="h3" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
     </div>
-    <div class="game-hint">В какой из коробок подарок?</div>
+    <div class="game-hint">Желаю удачи!</div>
     <div class="boxes-container">
-      <button class="box-btn" onclick="pickBox(this)"><img src="https://gcdnb.pbrd.co/images/uDPqNncqycjf.png?o=1" width="80"></button>
-      <button class="box-btn" onclick="pickBox(this)"><img src="https://gcdnb.pbrd.co/images/1M2VG2b4Y8pi.png?o=1" width="80"></button>
-      <button class="box-btn" onclick="pickBox(this)"><img src="https://gcdnb.pbrd.co/images/SrNkRig2rOMl.png?o=1" width="80"></button>
+      <button class="box-btn" onclick="pickBox(this)"><img src="https://gcdnb.pbrd.co/images/uDPqNncqycjf.png?o=1" width="100"></button>
+      <button class="box-btn" onclick="pickBox(this)"><img src="https://gcdnb.pbrd.co/images/1M2VG2b4Y8pi.png?o=1" width="100"></button>
+      <button class="box-btn" onclick="pickBox(this)"><img src="https://gcdnb.pbrd.co/images/SrNkRig2rOMl.png?o=1" width="100"></button>
     </div>
   </div>
 </div>
@@ -166,15 +194,13 @@
       <div class="win-note-side">
         <div class="note-text">
           <p>Поздравляю! Ты нашла свой подарок.</p>
-          <p style="margin-top:15px; font-size: 0.85em;">
-            В этой игре невозможно проиграть — в последней коробке всегда приз. Ты заслужила его в любом случае!
-          </p>
+          <p style="margin-top:15px; font-size: 0.9em;">Вообще, в этой игре невозможно было проиграть. Когда остается последняя жизнь, подарок появляется в любой коробке. Ты заслужила его в любом случае! ❤️</p>
         </div>
-        <div style="font-size: 40px; margin-top: 15px;">🎂🎉</div>
+        <div style="font-size: 40px; margin-top: 20px;">🎂🎉</div>
       </div>
       <div class="win-prize-side">
-        <div style="font-family: 'Caveat'; font-size: 24px; margin-bottom: 15px; text-align: center;">Твой подарок:</div>
-        <img src="https://ir.ozone.ru/s3/multimedia-9/6711769773.jpg" class="prize-image" alt="Микрофон">
+        <div style="font-family: 'Caveat'; font-size: 22px; margin-bottom: 15px;">Твой подарок:</div>
+        <img src="https://ir.ozone.ru/s3/multimedia-9/6711769773.jpg" class="prize-image" alt="HyperX SoloCast">
       </div>
     </div>
   </div>
@@ -183,7 +209,8 @@
 <script>
   function goTo(screenId) {
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-    document.getElementById('s' + screenId).classList.add('active');
+    const target = document.getElementById('s' + screenId);
+    if(target) target.classList.add('active');
   }
 
   let lives = 3;
@@ -199,6 +226,8 @@
       lives--;
       btn.classList.add('shake');
       setTimeout(() => btn.classList.remove('shake'), 500);
+      const hints = ["Почти!", "Попробуй другую", "Мимо!", "Ой!"];
+      document.querySelector('.game-hint').innerText = hints[Math.floor(Math.random()*hints.length)];
     } else {
       goTo(6);
       fireConfetti();
@@ -213,19 +242,19 @@
     const pieces = [];
     for (let i = 0; i < 150; i++) {
       pieces.push({
-        x: canvas.width / 2, y: canvas.height / 2,
-        vx: (Math.random() - 0.5) * 20, vy: (Math.random() - 1) * 20,
-        size: Math.random() * 8 + 4, color: ['#f035e0', '#00d2ff', '#d4af37'][Math.floor(Math.random()*3)]
+        x: canvas.width/2, y: canvas.height/2,
+        vx: (Math.random()-0.5)*20, vy: (Math.random()-1)*20,
+        size: Math.random()*10+5, color: ['#f035e0', '#00d2ff', '#d4af37'][Math.floor(Math.random()*3)]
       });
     }
     function update() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.clearRect(0,0,canvas.width,canvas.height);
       pieces.forEach(p => {
         p.x += p.vx; p.y += p.vy; p.vy += 0.5;
         ctx.fillStyle = p.color;
         ctx.fillRect(p.x, p.y, p.size, p.size);
       });
-      if (pieces[0].y < canvas.height + 100) requestAnimationFrame(update);
+      requestAnimationFrame(update);
     }
     update();
   }
