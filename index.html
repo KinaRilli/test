@@ -146,26 +146,35 @@
 <div class="screen" id="s2">
   <div class="bg-light"></div>
   <div class="combined-container">
-    <div class="bday-card letter-slide" style="background-image: url('https://gcdnb.pbrd.co/images/1259HZc5czMk.png?o=1'); background-size: cover;">
+    
+    <div class="bday-card letter-slide" style="background-image: url('https://gcdnb.pbrd.co/images/1259HZc5czMk.png?o=1'); background-size: cover; background-position: center; background-repeat: no-repeat; border: none; margin: 0;">
       <div class="bcard-title">С Днём Рождения!</div>
       <div class="bcard-text">
         Желаю тебе счастья, вдохновения, любви и исполнения всех заветных желаний!<br><br>
-        Пусть каждый твой день приносит радость!
+        Пусть каждый твой день приносит радость и улыбки!
       </div>
-      <button class="btn" onclick="goTo(4)">Сюда</button>
+      <div style="font-size: 14px; color: #8060a0; margin-bottom: 15px; font-family: 'Caveat', cursive; font-weight: bold;">
+        Нажми сюда, чтобы получить свой подарок.
+      </div>
+      <button class="btn" onclick="goTo(4)" style="padding: 12px 30px;">Сюда</button>
     </div>
+
     <div class="envelope-wrapper">
-      <img src="https://gcdnb.pbrd.co/images/Bgbqrsgo0ctt.png?o=1" alt="Конверт" style="width: auto; height: clamp(300px, 45vh, 500px);">
+      <img src="https://gcdnb.pbrd.co/images/Bgbqrsgo0ctt.png?o=1" alt="Открытый конверт" style="width: auto; height: clamp(250px, 40vh, 500px); display: block;">
     </div>
+
   </div>
 </div>
 
 <div class="screen" id="s4">
   <div class="bg-room"></div>
   <div class="modal">
-    <img src="https://gcdnb.pbrd.co/images/724td540b4Fy.png" style="width: 80px; margin-bottom: 15px;">
+    <img src="https://gcdnb.pbrd.co/images/724td540b4Fy.png" style="width: 100px; height: auto; margin-bottom: 15px;">
     <h2 class="modal-title">Мини-игра</h2>
-    <p class="modal-text">Выиграй подарок! У тебя 3 жизни, чтобы угадать коробку.</p>
+    <p class="modal-text">
+      Выиграй в мини игре что бы получить подарок.<br>
+      У тебя есть только 3 жизни что бы угадать<br>в каком из коробок твой подарок.
+    </p>
     <button class="btn" onclick="startGame()">Начать игру</button>
   </div>
 </div>
@@ -178,7 +187,7 @@
       <svg class="heart" id="h2" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
       <svg class="heart" id="h3" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
     </div>
-    <div class="game-hint">Желаю удачи!</div>
+    <div class="game-hint">Желаю удачи угадать в каком из коробок твой подарок</div>
     <div class="boxes-container">
       <button class="box-btn" onclick="pickBox(this)"><img src="https://gcdnb.pbrd.co/images/uDPqNncqycjf.png?o=1" width="100"></button>
       <button class="box-btn" onclick="pickBox(this)"><img src="https://gcdnb.pbrd.co/images/1M2VG2b4Y8pi.png?o=1" width="100"></button>
