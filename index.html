@@ -35,152 +35,76 @@
     content: ''; position: absolute; inset: 0; background: rgba(255,255,255,0.3);
   }
 
-  .landing-layout {
-    display: flex; width: 100%; max-width: 900px; justify-content: space-around; align-items: center; padding: 20px;
-  }
+  /* Стили лендинга */
+  .landing-layout { display: flex; width: 100%; max-width: 900px; justify-content: space-around; align-items: center; padding: 20px; }
   .landing-text { text-align: center; color: #8e6d51; }
   .hb-happy { font-weight: 500; font-size: clamp(30px, 4vw, 42px); display: block; margin-bottom: -10px; }
-  .hb-birthday { font-family: 'Dancing Script', cursive; font-size: clamp(60px, 8vw, 110px); display: block; line-height: 1; color: #a47b59;}
-  .hb-sub { font-weight: 300; font-size: 18px; letter-spacing: 2px; }
-
+  .hb-birthday { font-family: 'Dancing Script', cursive; font-size: clamp(60px, 8vw, 110px); display: block; line-height: 1; color: #a47b59; }
+  
   .env-float { cursor: pointer; transition: transform 0.3s; animation: float 3s ease-in-out infinite; }
-  .env-float:hover { transform: scale(1.05); }
   @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
 
-  .bday-card {
-    width: clamp(280px, 40vw, 400px); background: #fff; border-radius: 16px; overflow: hidden;
-    box-shadow: 0 15px 40px rgba(160,100,130,0.2); border: 1px solid rgba(220,180,200,0.3);
-    text-align: center; padding: 30px 20px;
-  }
-  .bcard-title { font-family: 'Dancing Script', cursive; font-size: 32px; color: #9b7dc7; margin-bottom: 20px; font-weight: 700; }
-  .bcard-text { font-family: 'Caveat', cursive; font-size: 22px; color: #5a4060; line-height: 1.6; margin-bottom: 20px; }
-  
-  .modal {
+  /* Стили карточек и модалок */
+  .modal, .bday-card {
     background: rgba(255, 255, 255, 0.98); border-radius: 24px; box-shadow: 0 20px 50px rgba(0,0,0,0.15);
-    padding: 50px 40px; text-align: center; max-width: 500px; width: 90%;
-    animation: slideUp 0.5s ease-out; position: relative; z-index: 10;
+    padding: 40px; text-align: center; max-width: 500px; width: 90%;
+    animation: slideUp 0.5s ease-out; position: relative;
   }
   @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
 
-  .modal-title { font-size: 32px; font-weight: 400; color: var(--magenta); margin-bottom: 15px; }
-  .modal-text { font-size: 16px; color: var(--text-light); line-height: 1.6; margin-bottom: 30px; font-weight: 400; }
-  
   .btn {
-    background: var(--magenta); color: #fff; font-family: 'Montserrat', sans-serif; font-size: 16px; font-weight: 600;
-    border: none; border-radius: 50px; padding: 15px 40px; cursor: pointer; transition: 0.2s; box-shadow: 0 8px 20px rgba(240, 53, 224, 0.4);
+    background: var(--magenta); color: #fff; font-weight: 600; border: none; 
+    border-radius: 50px; padding: 15px 40px; cursor: pointer; transition: 0.2s;
+    box-shadow: 0 8px 20px rgba(240, 53, 224, 0.4);
   }
-  .btn:hover { background: var(--magenta-hover); transform: translateY(-2px); box-shadow: 0 10px 25px rgba(240, 53, 224, 0.5); }
+  .btn:hover { transform: translateY(-2px); background: var(--magenta-hover); }
 
-  .hearts-container { display: flex; justify-content: center; gap: 10px; margin-bottom: 30px; }
-  .heart { width: 35px; height: 35px; fill: red; transition: 0.3s; }
+  /* Игра */
+  .hearts-container { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; }
+  .heart { width: 35px; height: 35px; fill: red; }
   .heart.lost { fill: #ccc; transform: scale(0.8); opacity: 0.5; }
-  .game-hint { font-family: 'Caveat', cursive; font-size: 28px; color: var(--text-dark); margin-bottom: 40px; }
-  
-  .boxes-container { display: flex; justify-content: center; gap: 30px; }
-  .box-btn { 
-    background: none; border: none; cursor: pointer; transition: transform 0.2s;
-    animation: boxFloat 2.5s ease-in-out infinite;
-  }
-  .box-btn:hover { transform: scale(1.1) translateY(-5px); }
+  .game-hint { font-family: 'Caveat', cursive; font-size: 28px; margin-bottom: 30px; }
+  .boxes-container { display: flex; justify-content: center; gap: 20px; }
+  .box-btn { background: none; border: none; cursor: pointer; animation: boxFloat 2.5s infinite; }
   @keyframes boxFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
-
-  .win-modal {
-    display: flex; max-width: 850px; width: 95%; background: #fff; border-radius: 24px;
-    overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.2); animation: slideUp 0.5s ease-out;
-  }
-  .win-note-side {
-    flex: 1.2; padding: 40px; position: relative;
-  }
-  .note-text { font-family: 'Caveat', cursive; font-size: 22px; line-height: 1.5; color: #4a3b42; position: relative; z-index: 2; }
-  .win-prize-side {
-    flex: 1; padding: 40px; display: flex; flex-direction: column; align-items: center; justify-content: center;
-  }
-  .win-prize-title { font-family: 'Caveat', cursive; font-size: 26px; color: #333; margin-bottom: 20px; text-align: center; }
-  
-  .prize-image { 
-    max-width: 150px; 
-    filter: drop-shadow(0 10px 20px rgba(0,0,0,0.2));
-    animation: zoomIn 0.8s cubic-bezier(0.17, 0.67, 0.83, 0.67);
-  }
-  @keyframes zoomIn { from { transform: scale(0); } to { transform: scale(1); } }
-
-  #confetti { position: fixed; inset: 0; pointer-events: none; z-index: 9999; }
-
- @media (max-width: 768px) {
-    .landing-layout { flex-direction: column; gap: 40px; }
-    .win-modal { flex-direction: column; }
-    .win-note-side { border-right: none; border-bottom: 1px solid #eee; }
-  } /* Это последняя скобка твоего старого кода */
-/* Анимация тряски для пустой коробки */
   .shake { animation: shake 0.5s ease-in-out; }
+  @keyframes shake { 0%, 100% { transform: translateX(0); } 20%, 60% { transform: translateX(-10px); } 40%, 80% { transform: translateX(10px); } }
 
-  @keyframes shake {
-    0%, 100% { transform: translateX(0); }
-    20%, 60% { transform: translateX(-10px); }
-    40%, 80% { transform: translateX(10px); }
-  }
-  
-  /* ВСТАВЛЯЙ СЮДА: */
-  /* 1. Увеличиваем расстояние (gap) */
-.combined-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 80px; /* Было 20px, поставил 80px для большего пространства */
-    width: 95%;
-    max-width: 1100px; /* Увеличил общую ширину контейнера, чтобы всё влезло */
-    position: relative;
-}
-
-/* 2. Увеличиваем длину письма (width) */
-.bday-card {
-    /* Было clamp(280px, 40vw, 400px) */
-    width: clamp(350px, 50vw, 550px); /* Теперь письмо шире: минимум 350px, максимум 550px */
-    background: #fff; 
-    border-radius: 16px; 
-    overflow: hidden;
-    box-shadow: 0 15px 40px rgba(160,100,130,0.2); 
-    border: 1px solid rgba(220,180,200,0.3);
-    text-align: center; 
-    padding: 30px 20px;
-}
-
-  .envelope-wrapper {
-    position: relative;
-    z-index: 2;
+  /* --- ФИНАЛЬНЫЙ ЭКРАН (S6) --- */
+  .win-modal-container { display: flex; justify-content: center; align-items: center; width: 100%; }
+  .win-modal {
+    display: flex; max-width: 900px; width: 95%; background: #fff; border-radius: 24px;
+    overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.2);
   }
 
-  .letter-slide {
-    position: relative;
-    z-index: 1;
-    opacity: 0;
-    transform: translateX(150px) scale(0.9);
-    transition: all 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    transition-delay: 0.2s;
-  }
-
-  .screen.active .letter-slide {
-    opacity: 1;
-    transform: translateX(0) scale(1);
+  @media (min-width: 769px) {
+    .win-modal { flex-direction: row; min-height: 450px; }
+    .win-note-side {
+      flex: 1.2; padding: 50px;
+      background: url('https://gcdnb.pbrd.co/images/1259HZc5czMk.png?o=1') center/cover no-repeat;
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    .win-prize-side { flex: 1; padding: 40px; display: flex; flex-direction: column; align-items: center; justify-content: center; border-left: 1px solid #eee; }
   }
 
   @media (max-width: 768px) {
-    .combined-container {
-      flex-direction: column-reverse;
-      gap: 30px;
+    .landing-layout { flex-direction: column; gap: 40px; }
+    .win-modal {
+      flex-direction: column; max-width: 350px;
+      background: url('https://gcdnb.pbrd.co/images/1259HZc5czMk.png?o=1') center/cover no-repeat;
     }
-    .letter-slide {
-      transform: translateY(100px) scale(0.9);
-    }
-    .screen.active .letter-slide {
-      transform: translateY(0) scale(1);
-    }
+    .win-note-side { padding: 30px 20px 10px; text-align: center; }
+    .win-prize-side { padding: 10px 20px 30px; display: flex; flex-direction: column; align-items: center; }
   }
 
+  .note-text { font-family: 'Caveat', cursive; font-size: 22px; color: #4a3b42; }
+  .prize-image { max-width: 150px; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.2)); animation: zoomIn 0.8s; }
+  @keyframes zoomIn { from { transform: scale(0); } to { transform: scale(1); } }
+  #confetti { position: fixed; inset: 0; pointer-events: none; z-index: 9999; }
 </style>
 </head>
-  <body>
-    
+<body>
+
 <canvas id="confetti"></canvas>
 
 <div class="screen active" id="s1">
@@ -192,7 +116,7 @@
       <span class="hb-sub">Best Wishes!</span>
     </div>
     <div class="env-float" onclick="goTo(2)">
-      <img src="https://gcdnb.pbrd.co/images/Sbh350mn2wrW.png?o=1" style="width: clamp(250px, 30vw, 350px); height: auto;">
+      <img src="https://gcdnb.pbrd.co/images/Sbh350mn2wrW.png?o=1" style="width: 280px;">
       <div style="text-align: center; color: #a47b59; font-size: 14px; margin-top: 15px;">✨ нажми, чтобы открыть ✨</div>
     </div>
   </div>
@@ -200,37 +124,21 @@
 
 <div class="screen" id="s2">
   <div class="bg-light"></div>
-  <div class="combined-container">
-    
-    <div class="bday-card letter-slide" style="background-image: url('https://gcdnb.pbrd.co/images/1259HZc5czMk.png?o=1'); background-size: cover; background-position: center; background-repeat: no-repeat; border: none; margin: 0;">
-      <div class="bcard-title">С Днём Рождения!</div>
-      <div class="bcard-text">
-        Желаю тебе счастья, вдохновения, любви и исполнения всех заветных желаний!<br><br>
-        Пусть каждый твой день приносит радость и улыбки!
-      </div>
-      <div style="font-size: 14px; color: #8060a0; margin-bottom: 15px; font-family: 'Caveat', cursive; font-weight: bold;">
-        Нажми сюда, чтобы получить свой подарок.
-      </div>
-      <button class="btn" onclick="goTo(4)" style="padding: 12px 30px;">Сюда</button>
-    </div>
-
-    <div class="envelope-wrapper">
-      <img src="https://gcdnb.pbrd.co/images/Bgbqrsgo0ctt.png?o=1" alt="Открытый конверт" style="width: auto; height: clamp(250px, 40vh, 500px); display: block;">
-    </div>
-
+  <div class="bday-card" style="background: url('https://gcdnb.pbrd.co/images/1259HZc5czMk.png?o=1') center/cover;">
+    <h2 style="font-family: 'Dancing Script'; margin-bottom: 15px;">С Днём Рождения!</h2>
+    <p style="font-family: 'Caveat'; font-size: 20px; margin-bottom: 20px;">
+      Желаю тебе счастья, вдохновения и любви!<br>Пусть каждый день приносит радость.
+    </p>
+    <button class="btn" onclick="goTo(4)">Получить подарок</button>
   </div>
 </div>
 
 <div class="screen" id="s4">
   <div class="bg-room"></div>
   <div class="modal">
-    <img src="https://gcdnb.pbrd.co/images/724td540b4Fy.png" style="width: 100px; height: auto; margin-bottom: 15px;">
     <h2 class="modal-title">Мини-игра</h2>
-    <p class="modal-text">
-      Выиграй в мини игре что бы получить подарок.<br>
-      У тебя есть только 3 жизни что бы угадать<br>в каком из коробок твой подарок.
-    </p>
-    <button class="btn" onclick="startGame()">Начать игру</button>
+    <p class="modal-text">Угадай, в какой коробке подарок. У тебя 3 жизни!</p>
+    <button class="btn" onclick="startGame()">Начать</button>
   </div>
 </div>
 
@@ -242,28 +150,32 @@
       <svg class="heart" id="h2" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
       <svg class="heart" id="h3" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
     </div>
-    <div class="game-hint">Желаю удачи угадать в каком из коробок твой подарок</div>
+    <div class="game-hint">В какой из коробок подарок?</div>
     <div class="boxes-container">
-      <button class="box-btn" onclick="pickBox(this)"><img src="https://gcdnb.pbrd.co/images/uDPqNncqycjf.png?o=1" style="width: 100px; height: auto;"></button>
-      <button class="box-btn" onclick="pickBox(this)"><img src="https://gcdnb.pbrd.co/images/1M2VG2b4Y8pi.png?o=1" style="width: 100px; height: auto;"></button>
-      <button class="box-btn" onclick="pickBox(this)"><img src="https://gcdnb.pbrd.co/images/SrNkRig2rOMl.png?o=1" style="width: 100px; height: auto;"></button>
+      <button class="box-btn" onclick="pickBox(this)"><img src="https://gcdnb.pbrd.co/images/uDPqNncqycjf.png?o=1" width="80"></button>
+      <button class="box-btn" onclick="pickBox(this)"><img src="https://gcdnb.pbrd.co/images/1M2VG2b4Y8pi.png?o=1" width="80"></button>
+      <button class="box-btn" onclick="pickBox(this)"><img src="https://gcdnb.pbrd.co/images/SrNkRig2rOMl.png?o=1" width="80"></button>
     </div>
   </div>
 </div>
 
 <div class="screen" id="s6">
   <div class="bg-room"></div>
-  <div class="win-modal" style="background-image: url('https://gcdnb.pbrd.co/images/1259HZc5czMk.png?o=1'); background-size: cover; background-position: center; border: none;">
-    <div class="win-note-side">
-      <div class="note-text">
-        <p>Поздравляю! Ты нашла свой подарок.</p>
-        <p>Вообще, в этой мини-игре невозможно было бы проиграть, так как она устроена так, что когда остается последняя жизнь, во всех коробках оказывается твой подарок. Неважно, что бы ты выбрала — ты бы выиграла в любом случае!</p>
+  <div class="win-modal-container">
+    <div class="win-modal">
+      <div class="win-note-side">
+        <div class="note-text">
+          <p>Поздравляю! Ты нашла свой подарок.</p>
+          <p style="margin-top:15px; font-size: 0.85em;">
+            В этой игре невозможно проиграть — в последней коробке всегда приз. Ты заслужила его в любом случае!
+          </p>
+        </div>
+        <div style="font-size: 40px; margin-top: 15px;">🎂🎉</div>
       </div>
-      <div style="font-size: 40px; position: absolute; bottom: 20px; left: 20px;">🎂🎉</div>
-    </div>
-    <div class="win-prize-side">
-      <div class="win-prize-title">Вот твой подарок который ты заслужила</div>
-      <img src="https://ir.ozone.ru/s3/multimedia-9/6711769773.jpg" class="prize-image" alt="Микрофон HyperX">
+      <div class="win-prize-side">
+        <div style="font-family: 'Caveat'; font-size: 24px; margin-bottom: 15px; text-align: center;">Твой подарок:</div>
+        <img src="https://ir.ozone.ru/s3/multimedia-9/6711769773.jpg" class="prize-image" alt="Микрофон">
+      </div>
     </div>
   </div>
 </div>
@@ -271,43 +183,23 @@
 <script>
   function goTo(screenId) {
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-    const target = document.getElementById('s' + screenId);
-    if(target) target.classList.add('active');
+    document.getElementById('s' + screenId).classList.add('active');
   }
 
   let lives = 3;
-
   function startGame() {
     lives = 3;
-    document.querySelector('.game-hint').innerText = "Желаю удачи угадать, в какой из коробок твой подарок";
     document.querySelectorAll('.heart').forEach(h => h.classList.remove('lost'));
-    document.querySelectorAll('.box-btn').forEach(b => {
-      b.style.opacity = '1';
-      b.style.pointerEvents = 'all';
-      b.style.transform = 'scale(1)';
-      b.classList.remove('shake');
-    });
     goTo(5);
   }
 
-  function pickBox(btnElement) {
+  function pickBox(btn) {
     if (lives > 1) {
-      // Отнимаем жизнь
       document.getElementById('h' + lives).classList.add('lost');
       lives--;
-
-      // Эффект тряски
-      btnElement.classList.add('shake');
-      setTimeout(() => {
-        btnElement.classList.remove('shake');
-      }, 500);
-
-      // Исправленная строка с подсказками
-      const hints = ["Тут пусто...", "Попробуй снова!", "Не угадала!", "Ой мимо!"];
-      document.querySelector('.game-hint').innerText = hints[Math.floor(Math.random() * hints.length)];
-      
+      btn.classList.add('shake');
+      setTimeout(() => btn.classList.remove('shake'), 500);
     } else {
-      // Переход к победе
       goTo(6);
       fireConfetti();
     }
@@ -319,26 +211,24 @@
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
     const pieces = [];
-    const colors = ['#f035e0', '#00d2ff', '#d4af37', '#a55eea', '#ff4757'];
     for (let i = 0; i < 150; i++) {
       pieces.push({
-        x: canvas.width / 2, y: canvas.height / 2 + 50,
-        vx: (Math.random() - 0.5) * 25, vy: (Math.random() - 1) * 25,
-        size: Math.random() * 10 + 5, color: colors[Math.floor(Math.random() * colors.length)],
-        rotation: Math.random() * 360, rotationSpeed: (Math.random() - 0.5) * 10
+        x: canvas.width / 2, y: canvas.height / 2,
+        vx: (Math.random() - 0.5) * 20, vy: (Math.random() - 1) * 20,
+        size: Math.random() * 8 + 4, color: ['#f035e0', '#00d2ff', '#d4af37'][Math.floor(Math.random()*3)]
       });
     }
-    function animate() {
+    function update() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      let active = false;
       pieces.forEach(p => {
-        p.x += p.vx; p.y += p.vy; p.vy += 0.6; p.rotation += p.rotationSpeed;
-        if (p.y < canvas.height + 50) active = true;
-        ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.rotation * Math.PI / 180);
-        ctx.fillStyle = p.color; ctx.fillRect(-p.size/2, -p.size/2, p.size, p.size); ctx.restore();
+        p.x += p.vx; p.y += p.vy; p.vy += 0.5;
+        ctx.fillStyle = p.color;
+        ctx.fillRect(p.x, p.y, p.size, p.size);
       });
-      if (active) requestAnimationFrame(animate);
+      if (pieces[0].y < canvas.height + 100) requestAnimationFrame(update);
     }
-    animate();
+    update();
   }
 </script>
+</body>
+</html>
