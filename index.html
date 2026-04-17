@@ -68,7 +68,12 @@
   .heart { width: 35px; height: 35px; fill: red; transition: 0.3s; }
   .heart.lost { fill: #ccc; transform: scale(0.8); opacity: 0.5; }
   .game-hint { font-family: 'Caveat', cursive; font-size: 28px; margin-bottom: 30px; }
-  .boxes-container { display: flex; justify-content: center; gap: 20px; }
+  .boxes-container { 
+  display: flex; 
+  justify-content: center; 
+  gap: 15px; 
+  flex-wrap: wrap; /* Разрешает перенос коробок на следующий ряд */
+}
   .box-btn { background: none; border: none; cursor: pointer; animation: boxFloat 2.5s infinite; }
   @keyframes boxFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
   .shake { animation: shake 0.5s ease-in-out; }
@@ -114,8 +119,15 @@
         text-align: center;
     }
     .win-prize-side { border-left: none; border-top: 1px solid #eee; padding: 20px; }
-    .boxes-container { gap: 10px; }
-    .box-btn img { width: 80px; }
+    
+    /* Обновленные параметры для 6 коробок */
+    .boxes-container { 
+        gap: 8px; /* Чуть меньше расстояние между коробками */
+        flex-wrap: wrap; /* Чтобы они могли встать в два ряда, если экран совсем узкий */
+    }
+    .box-btn img { 
+        width: 65px; /* Уменьшенный размер, чтобы 3 коробки в ряд точно влезли */
+    }
   }
 </style>
 </head>
@@ -179,9 +191,12 @@
     </div>
     <div class="game-hint">В какой из коробок подарок?</div>
     <div class="boxes-container">
-      <button class="box-btn" onclick="pickBox(this)"><img src="https://gcdnb.pbrd.co/images/uDPqNncqycjf.png?o=1" width="100"></button>
-      <button class="box-btn" onclick="pickBox(this)"><img src="https://gcdnb.pbrd.co/images/1M2VG2b4Y8pi.png?o=1" width="100"></button>
-      <button class="box-btn" onclick="pickBox(this)"><img src="https://gcdnb.pbrd.co/images/SrNkRig2rOMl.png?o=1" width="100"></button>
+      <button class="box-btn" onclick="pickBox(this)"><img src="https://gcdnb.pbrd.co/images/uDPqNncqycjf.png?o=1" width="75"></button>
+      <button class="box-btn" onclick="pickBox(this)"><img src="https://gcdnb.pbrd.co/images/1M2VG2b4Y8pi.png?o=1" width="75"></button>
+      <button class="box-btn" onclick="pickBox(this)"><img src="https://gcdnb.pbrd.co/images/SrNkRig2rOMl.png?o=1" width="75"></button>
+      <button class="box-btn" onclick="pickBox(this)"><img src="https://gcdnb.pbrd.co/images/uDPqNncqycjf.png?o=1" width="75"></button>
+      <button class="box-btn" onclick="pickBox(this)"><img src="https://gcdnb.pbrd.co/images/1M2VG2b4Y8pi.png?o=1" width="75"></button>
+      <button class="box-btn" onclick="pickBox(this)"><img src="https://gcdnb.pbrd.co/images/SrNkRig2rOMl.png?o=1" width="75"></button>
     </div>
   </div>
 </div>
