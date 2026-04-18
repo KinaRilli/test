@@ -268,8 +268,16 @@
       const hints = ["Почти!", "Попробуй другую", "Мимо!", "Ой!"];
       document.querySelector('.game-hint').innerText = hints[Math.floor(Math.random() * hints.length)];
     } else {
-      // Победа (на последней жизни)
+    // --- ПОБЕДА ---
+      
+      // 1. Останавливаем фоновую музыку
+      bgMusic.pause(); 
+      // (Опционально) Сбрасываем её на начало, чтобы если игра начнется заново, она пела сначала
+      bgMusic.currentTime = 0; 
+
+      // 2. Включаем фанфары
       if (winSound.src) winSound.play();
+
       goTo(6);
       fireConfetti();
     }
