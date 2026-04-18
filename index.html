@@ -221,33 +221,61 @@
 </div>
 
 <script>
+ // 1. Настройки звуков (замени ссылки на свои .mp3)
+  const clickSound = new Audio('https://www.myinstants.com/instant/klik-myshi12312321-82024/embed/');
+  const failSound = new Audio('https://www.myinstants.com/instant/oshibka-windows-79780/embed/');
+  const winSound = new Audio('https://www.myinstants.com/ru/instant/fnaf-1-music-box-43056/');
+  const bgMusic = new Audio('https://www.myinstants.com/ru/instant/8-bit-happy-birthday-62739/');
+
+  winSound.volume = 0.5;
+  bgMusic.loop = true;
+  bgMusic.volume = 0.4;
+
+  let lives = 3; // Оставляем 3 жизни, как ты и хотел
+
+  // 2. Функция переключения экранов
   function goTo(screenId) {
+    // Запуск музыки при открытии конверта (экран 2)
+    if (screenId === 2) {
+      bgMusic.play().catch(e => console.log("https://www.myinstants.com/ru/instant/undertale-megalovania-82700/"));
+    }
+
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     const target = document.getElementById('s' + screenId);
-    if(target) target.classList.add('active');
+    if (target) target.classList.add('active');
   }
 
-  let lives = 3;
+  // 3. Логика начала игры
   function startGame() {
     lives = 3;
     document.querySelectorAll('.heart').forEach(h => h.classList.remove('lost'));
+    document.querySelector('.game-hint').innerText = "В какой из коробок подарок?";
     goTo(5);
   }
 
+  // 4. Логика выбора коробки
   function pickBox(btn) {
     if (lives > 1) {
+      // Промах
+      if (failSound.src) failSound.play(); 
+      
       document.getElementById('h' + lives).classList.add('lost');
       lives--;
+      
       btn.classList.add('shake');
       setTimeout(() => btn.classList.remove('shake'), 500);
+      
       const hints = ["Почти!", "Попробуй другую", "Мимо!", "Ой!"];
-      document.querySelector('.game-hint').innerText = hints[Math.floor(Math.random()*hints.length)];
+      document.querySelector('.game-hint').innerText = hints[Math.floor(Math.random() * hints.length)];
     } else {
+      // Победа (на последней жизни)
+      if (winSound.src) winSound.play();
       goTo(6);
       fireConfetti();
     }
   }
 
+  // 5. Конфетти
   function fireConfetti() {
     const canvas = document.getElementById('confetti');
     const ctx = canvas.getContext('2d');
@@ -256,15 +284,20 @@
     const pieces = [];
     for (let i = 0; i < 150; i++) {
       pieces.push({
-        x: canvas.width/2, y: canvas.height/2,
-        vx: (Math.random()-0.5)*20, vy: (Math.random()-1)*20,
-        size: Math.random()*10+5, color: ['#f035e0', '#00d2ff', '#d4af37'][Math.floor(Math.random()*3)]
+        x: canvas.width / 2,
+        y: canvas.height / 2,
+        vx: (Math.random() - 0.5) * 20,
+        vy: (Math.random() - 1) * 20,
+        size: Math.random() * 10 + 5,
+        color: ['#f035e0', '#00d2ff', '#d4af37'][Math.floor(Math.random() * 3)]
       });
     }
     function update() {
-      ctx.clearRect(0,0,canvas.width,canvas.height);
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
       pieces.forEach(p => {
-        p.x += p.vx; p.y += p.vy; p.vy += 0.5;
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vy += 0.5;
         ctx.fillStyle = p.color;
         ctx.fillRect(p.x, p.y, p.size, p.size);
       });
