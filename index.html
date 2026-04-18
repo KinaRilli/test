@@ -25,24 +25,27 @@
   .bg-room { position: absolute; inset: 0; z-index: -2; background: url('https://gcdnb.pbrd.co/images/EKRHDiaBaFiN.png?o=1') center/cover no-repeat; }
   .bg-room::after { content: ''; position: absolute; inset: 0; background: rgba(255,255,255,0.3); }
 
-  /* ЭКРАН 1 */
+  /* ЭКРАН 1: Landing */
   .landing-layout { display: flex; width: 100%; max-width: 900px; justify-content: space-around; align-items: center; padding: 20px; }
   .landing-text { text-align: center; color: #8e6d51; }
-  .hb-birthday { font-family: 'Dancing Script', cursive; font-size: clamp(60px, 8vw, 110px); color: #a47b59; line-height: 1; }
-  .env-float { cursor: pointer; animation: float 3s ease-in-out infinite; text-align: center; }
+  .hb-birthday { font-family: 'Dancing Script', cursive; font-size: clamp(60px, 8vw, 110px); display: block; line-height: 1; color: #a47b59;}
+  .env-float { cursor: pointer; transition: transform 0.3s; animation: float 3s ease-in-out infinite; text-align: center;}
   @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
 
-  /* ЭКРАН 2 (Карточка) */
+  /* ЭКРАН 2: Карточка */
   .combined-container { display: flex; align-items: center; justify-content: center; width: 95%; max-width: 1100px; position: relative; }
-  .bday-card { 
-    background: #fff; border-radius: 16px; padding: 30px 20px; z-index: 5; text-align: center;
-    box-shadow: 0 15px 40px rgba(160,100,130,0.2); 
+  .bday-card {
+    background: #fff; border-radius: 16px; overflow: hidden; text-align: center; padding: 30px 20px; z-index: 5;
+    box-shadow: 0 15px 40px rgba(160,100,130,0.2); border: 1px solid rgba(220,180,200,0.3);
   }
   .letter-slide { opacity: 0; transition: all 1s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
   .screen.active .letter-slide { opacity: 1; transform: scale(1); }
 
-  /* ЭКРАН 5 (Игра) */
-  .modal { background: rgba(255, 255, 255, 0.98); border-radius: 24px; padding: 40px; text-align: center; max-width: 500px; width: 90%; }
+  /* ЭКРАН 5: Игра */
+  .modal {
+    background: rgba(255, 255, 255, 0.98); border-radius: 24px; box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+    padding: 40px; text-align: center; max-width: 500px; width: 90%;
+  }
   .hearts-container { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; }
   .heart { width: 35px; height: 35px; fill: red; transition: 0.3s; }
   .heart.lost { fill: #ccc; transform: scale(0.8); opacity: 0.5; }
@@ -52,26 +55,27 @@
   .shake { animation: shake 0.5s ease-in-out; }
   @keyframes shake { 0%, 100% { transform: translateX(0); } 20%, 60% { transform: translateX(-10px); } 40%, 80% { transform: translateX(10px); } }
 
-  /* ЭКРАН 6 (Победа) */
+  /* ЭКРАН 6: Победа */
   .win-modal { display: flex; max-width: 900px; width: 95%; background: #fff; border-radius: 24px; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.2); }
   .win-note-side { flex: 1.2; padding: 40px; display: flex; flex-direction: column; justify-content: center; background: url('https://gcdnb.pbrd.co/images/EZct7RAMJnAy.png') center/cover; }
-  
-  /* СТИЛИ ДЛЯ КАРТИНКИ ПОДАРКА */
   .win-prize-side { 
     flex: 1; 
     background-size: cover; 
     background-position: center; 
     background-repeat: no-repeat; 
     border-left: 1px solid #eee;
-    min-height: 300px; /* Чтобы на мобилках картинка не сплющилась */
+    min-height: 300px; 
   }
 
-  .btn { background: var(--magenta); color: #fff; font-weight: 600; border: none; border-radius: 50px; padding: 15px 40px; cursor: pointer; transition: 0.2s; }
+  .btn {
+    background: var(--magenta); color: #fff; font-family: 'Montserrat', sans-serif; font-size: 16px; font-weight: 600;
+    border: none; border-radius: 50px; padding: 15px 40px; cursor: pointer; transition: 0.2s;
+  }
   .btn:hover { background: var(--magenta-hover); transform: translateY(-2px); }
   #confetti { position: fixed; inset: 0; pointer-events: none; z-index: 9999; }
 
-  /* Адаптация под мобильные */
   @media (max-width: 768px) {
+    .landing-layout { flex-direction: column; gap: 40px; }
     .combined-container { flex-direction: column-reverse; gap: 20px; }
     .bday-card { width: 90%; }
     .win-modal { flex-direction: column; max-width: 350px; }
@@ -91,7 +95,7 @@
     <div class="landing-text">
       <span style="font-size: 30px;">Happy</span><br>
       <span class="hb-birthday">Birthday</span><br>
-      <span>Best Wishes!</span>
+      <span style="font-size: 14px;">Best Wishes!</span>
     </div>
     <div class="env-float" onclick="goTo(2)">
       <img src="https://gcdnb.pbrd.co/images/Sbh350mn2wrW.png?o=1" style="width: 280px; height: auto;">
@@ -116,8 +120,8 @@
   <div class="bg-room"></div>
   <div class="modal">
     <h2 style="margin-bottom: 10px;">Мини-игра</h2>
-    <p>Угадай коробку! У тебя 3 жизни.</p>
-    <button class="btn" onclick="startGame()" style="margin-top: 20px;">Начать</button>
+    <p>Выиграй подарок!<br>У тебя 3 жизни, чтобы угадать коробку.</p>
+    <button class="btn" onclick="startGame()" style="margin-top: 20px;">Начать игру</button>
   </div>
 </div>
 
@@ -129,7 +133,7 @@
       <svg class="heart" id="h2" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
       <svg class="heart" id="h3" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
     </div>
-    <div class="game-hint" style="font-family: 'Caveat'; font-size: 28px; margin-bottom: 20px;">Где подарок?</div>
+    <div class="game-hint" style="font-family: 'Caveat'; font-size: 28px; margin-bottom: 20px;">В какой из коробок подарок?</div>
     <div class="boxes-container">
       <button class="box-btn" onclick="pickBox(this)"><img src="https://gcdnb.pbrd.co/images/uDPqNncqycjf.png?o=1" width="75"></button>
       <button class="box-btn" onclick="pickBox(this)"><img src="https://gcdnb.pbrd.co/images/1M2VG2b4Y8pi.png?o=1" width="75"></button>
@@ -147,15 +151,16 @@
     <div class="win-note-side">
       <div style="font-family: 'Caveat'; font-size: 22px;">
         <p>Поздравляю! Ты нашла подарок.</p>
-        <p style="margin-top:15px; font-size: 0.8em;">В этой игре невозможно проиграть, ты заслужила его в любом случае! ❤️</p>
+        <p style="margin-top:15px; font-size: 0.8em;">В этой игре невозможно было проиграть, ты заслужила его в любом случае! ❤️</p>
       </div>
+      <div style="font-size: 40px; margin-top: 15px;">🎂🎉</div>
     </div>
     <div class="win-prize-side" style="background-image: url('https://avatars.mds.yandex.net/get-mpic/3611742/2a000001914e71de999ffc4d6a100e0d5312/orig');"></div>
   </div>
 </div>
 
 <script>
-  // Звуки
+  // Ссылки на твои аудио
   const failSound = new Audio('https://videotourl.com/audio/1776532170917-e559ca33-c4e7-4d4d-9651-f9bff614f0f1.mp3');
   const winSound = new Audio('https://www.image2url.com/r2/default/audio/1776531548645-373e70f0-8375-4858-85b1-57dbf9afb276.mp3');
   const bgMusic = new Audio('https://www.image2url.com/r2/default/audio/1776531682994-c667faf7-1bac-4390-ab3b-fe9fc2ddda53.mp3');
@@ -167,7 +172,7 @@
   let lives = 3;
 
   function goTo(id) {
-    if (id === 2) bgMusic.play().catch(() => console.log("Ждем клика для музыки"));
+    if (id === 2) bgMusic.play().catch(() => console.log("Музыка ждет клика"));
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     document.getElementById('s' + id).classList.add('active');
   }
@@ -175,7 +180,7 @@
   function startGame() {
     lives = 3;
     document.querySelectorAll('.heart').forEach(h => h.classList.remove('lost'));
-    document.querySelector('.game-hint').innerText = "Где подарок?";
+    document.querySelector('.game-hint').innerText = "В какой из коробок подарок?";
     goTo(5);
   }
 
@@ -188,6 +193,7 @@
       setTimeout(() => btn.classList.remove('shake'), 500);
       document.querySelector('.game-hint').innerText = "Мимо! Попробуй еще";
     } else {
+      // ПОБЕДА: Останавливаем фон, включаем фанфары
       bgMusic.pause();
       bgMusic.currentTime = 0;
       winSound.play();
